@@ -1,0 +1,26 @@
+﻿@model WebApplication1.Models.Event
+
+@{
+    ViewData["Title"] = "Join Event";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div class="event-details">
+    <h2>@Model.Title</h2>
+    <img src="@Model.PhotoUrl" alt="Event Image" style="width: 100%; max-height: 400px; object-fit: cover;" />
+
+    <p><strong>Type of Music:</strong> @Model.TypeOfMusic</p>
+    <p><strong>Start Date:</strong> @Model.StartDate.ToString("dd MMM yyyy, hh:mm tt")</p>
+    <p><strong>End Date:</strong> @Model.EndDate.ToString("dd MMM yyyy, hh:mm tt")</p>
+    <p><strong>Location:</strong> @Model.Adress</p>
+
+    <p><strong>Hosted by:</strong> @Model.User?.Name</p>  <!-- Assuming User has a Name property -->
+
+    <a href="@Model.Url" target="_blank" class="btn btn-primary">More Info</a>
+
+    <!-- Join Button -->
+    <form method="post" action="@Url.Action("JoinToEvent", "Event", new { id = Model.Id })">
+        <button type="submit" class="btn btn-success">Join Event</button>
+    </form>
+</div>

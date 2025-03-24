@@ -1,61 +1,29 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Net.Http;
+using WebApplication1.Models;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.WebUtilities;
-using System.Text.Json;
 
-[Route("api/events")]
-[ApiController]
-public class EventsController : ControllerBase
+namespace WebApplication1.Controllers
 {
-    private readonly HttpClient _httpClient;
-
-    // Konstruktor z DI
-    public EventsController(HttpClient httpClient)
+    public class EventController : Controller
     {
-        _httpClient = httpClient;
-    }
-
-    [HttpGet]
-    public async Task<IActionResult> GetEvents()
-    {
-        try
+        [HttpGet]
+        public async Task<IActionResult> JoinToEvent()
         {
-            string apiKey = "0XWFV4YA1DPusHBAIZGvcGzPgH8HUlza";  
-            string baseUrl = "https://app.ticketmaster.com/discovery/v2/events.json";
-
-            // Parametry zapytania masz dc dokumentacje
-            //po wpisaniu w url /api/events wyswietli sie json
-            // lepsze to bo automatycznei masz i nie musisz robic ?size=1&.......
-            var query = new Dictionary<string, string>
+            // Przykładowy obiekt Event do wyświetlenia w widoku
+            var eventDetails = new Event
             {
-                { "apikey", apiKey },
-                { "size", "1" },
-                { "city", "Krakow" },
-                { "unit", "km" },
-                { "radius", "1" },
-                { "type", "event" }
+                Id = 1,
+                Title = "Sample Event",
+                StartDate = DateTime.Now.AddDays(2),
+                EndDate = DateTime.Now.AddDays(2).AddHours(4),
+                Adress = "Sample Address",
+                TypeOfMusic = "Rock",
+                Url = "https://example.com",
+                PhotoUrl = "https://via.placeholder.com/400x200",
+                User = new User { Name = "John Doe" }
             };
 
-            // Budowanie URL z zapytaniem
-            string url = QueryHelpers.AddQueryString(baseUrl, query);
-
-            // Wysyłanie zapytania HTTP
-            HttpResponseMessage response = await _httpClient.GetAsync(url);
-
-            if (!response.IsSuccessStatusCode)
-            {
-                return StatusCode((int)response.StatusCode, "Błąd pobierania danych z Ticketmaster API");
-            }
-
-            string json = await response.Content.ReadAsStringAsync();
-            var jsonObject = JsonSerializer.Deserialize<object>(json);
-
-            return Ok(jsonObject);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, new { error = $"Błąd serwera: {ex.Message}" });
+            return View(eventDetails); // Przekazujemy eventDetails do widoku
         }
     }
 }
