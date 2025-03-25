@@ -1,26 +1,60 @@
 ﻿@model WebApplication1.Models.Event
 
 @{
-    ViewData["Title"] = "Join Event";
+    ViewData["Title"] = "Create Event";
 }
 
 <h1>@ViewData["Title"]</h1>
 
-<div class="event-details">
-    <h2>@Model.Title</h2>
-    <img src="@Model.PhotoUrl" alt="Event Image" style="width: 100%; max-height: 400px; object-fit: cover;" />
+@* Chyba trzeba dac tylko pola z miastem i moze data? *@
 
-    <p><strong>Type of Music:</strong> @Model.TypeOfMusic</p>
-    <p><strong>Start Date:</strong> @Model.StartDate.ToString("dd MMM yyyy, hh:mm tt")</p>
-    <p><strong>End Date:</strong> @Model.EndDate.ToString("dd MMM yyyy, hh:mm tt")</p>
-    <p><strong>Location:</strong> @Model.Adress</p>
+<form asp-action="JoinToEvent" method="post">
+    @Html.AntiForgeryToken()
 
-    <p><strong>Hosted by:</strong> @Model.User?.Name</p>  <!-- Assuming User has a Name property -->
+    <div class="form-group">
+        <label asp-for="Title">Event Title:</label>
+        <input asp-for="Title" class="form-control" required />
+    </div>
 
-    <a href="@Model.Url" target="_blank" class="btn btn-primary">More Info</a>
+    <div class="form-group">
+        <label asp-for="StartDate">Start Date:</label>
+        <input asp-for="StartDate" type="datetime-local" class="form-control" required />
+    </div>
 
-    <!-- Join Button -->
-    <form method="post" action="@Url.Action("JoinToEvent", "Event", new { id = Model.Id })">
-        <button type="submit" class="btn btn-success">Join Event</button>
-    </form>
-</div>
+    <div class="form-group">
+        <label asp-for="EndDate">End Date:</label>
+        <input asp-for="EndDate" type="datetime-local" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Adress">Address:</label>
+        <input asp-for="Adress" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="TypeOfMusic">Type of Music:</label>
+        <input asp-for="TypeOfMusic" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Url">Event URL:</label>
+        <input asp-for="Url" type="url" class="form-control" required />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="PhotoUrl">Photo URL:</label>
+        <input asp-for="PhotoUrl" type="url" class="form-control" required />
+    </div>
+
+    <button type="submit" class="btn btn-success">Create Event</button>
+</form>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}

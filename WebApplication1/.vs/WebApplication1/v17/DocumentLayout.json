@@ -44,7 +44,7 @@
               "RelativeDocumentMoniker": "WebApplication1\\Controllers\\EventController.cs",
               "ToolTip": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\WebApplication1\\Controllers\\EventController.cs",
               "RelativeToolTip": "WebApplication1\\Controllers\\EventController.cs",
-              "ViewState": "AgIAAAIAAAAAAAAAAAAqwA8AAAAnAAAAAAAAAA==",
+              "ViewState": "AgIAABAAAAAAAAAAAAAgwBsAAABIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-24T16:24:01.459Z",
               "EditorCaption": ""
@@ -57,7 +57,7 @@
               "RelativeDocumentMoniker": "WebApplication1\\Program.cs",
               "ToolTip": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\WebApplication1\\Program.cs",
               "RelativeToolTip": "WebApplication1\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAxAAAAAAAAAA==",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAqwBAAAABdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-03-24T16:20:53.779Z",
               "EditorCaption": ""
@@ -72,8 +72,7 @@
               "RelativeToolTip": "WebApplication1\\Models\\Event.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-24T16:12:15.911Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-24T16:12:15.911Z"
             },
             {
               "$type": "Document",
@@ -83,7 +82,7 @@
               "RelativeDocumentMoniker": "WebApplication1\\Views\\Event\\JoinToEvent.cshtml",
               "ToolTip": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\WebApplication1\\Views\\Event\\JoinToEvent.cshtml",
               "RelativeToolTip": "WebApplication1\\Views\\Event\\JoinToEvent.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAzAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2025-03-24T16:11:48.319Z",
               "EditorCaption": ""
@@ -98,8 +97,7 @@
               "RelativeToolTip": "WebApplication1\\Controllers\\TestController.cs",
               "ViewState": "AgIAABQAAADAzMzMzMwmwBQAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-24T16:05:17.779Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-03-24T16:05:17.779Z"
             }
           ]
         }
