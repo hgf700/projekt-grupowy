@@ -3,24 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|c:\\users\\user098\\documents\\github\\projekt-grupowy\\webapplication1\\webapplication1\\controllers\\eventcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\controllers\\eventcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|c:\\users\\user098\\documents\\github\\projekt-grupowy\\webapplication1\\webapplication1\\controllers\\sendemailcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\controllers\\sendemailcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|c:\\users\\user098\\documents\\github\\projekt-grupowy\\webapplication1\\webapplication1\\views\\event\\jointoevent.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\views\\event\\jointoevent.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|c:\\users\\user098\\documents\\github\\projekt-grupowy\\webapplication1\\webapplication1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|c:\\users\\user098\\documents\\github\\projekt-grupowy\\webapplication1\\webapplication1\\models\\event.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\models\\event.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|c:\\users\\user098\\documents\\github\\projekt-grupowy\\webapplication1\\webapplication1\\controllers\\testcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\controllers\\testcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|c:\\users\\user098\\documents\\github\\projekt-grupowy\\webapplication1\\webapplication1\\.env||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\.env||{8B382828-6202-11D1-8870-0000F87579D2}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -38,66 +26,29 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "EventController.cs",
-              "DocumentMoniker": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\WebApplication1\\Controllers\\EventController.cs",
-              "RelativeDocumentMoniker": "WebApplication1\\Controllers\\EventController.cs",
-              "ToolTip": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\WebApplication1\\Controllers\\EventController.cs",
-              "RelativeToolTip": "WebApplication1\\Controllers\\EventController.cs",
-              "ViewState": "AgIAABAAAAAAAAAAAAAgwBsAAABIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-24T16:24:01.459Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\WebApplication1\\Program.cs",
-              "RelativeDocumentMoniker": "WebApplication1\\Program.cs",
-              "ToolTip": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\WebApplication1\\Program.cs",
-              "RelativeToolTip": "WebApplication1\\Program.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAqwBAAAABdAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-24T16:20:53.779Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Event.cs",
-              "DocumentMoniker": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\WebApplication1\\Models\\Event.cs",
-              "RelativeDocumentMoniker": "WebApplication1\\Models\\Event.cs",
-              "ToolTip": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\WebApplication1\\Models\\Event.cs",
-              "RelativeToolTip": "WebApplication1\\Models\\Event.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAWAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-24T16:12:15.911Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "JoinToEvent.cshtml",
-              "DocumentMoniker": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\WebApplication1\\Views\\Event\\JoinToEvent.cshtml",
-              "RelativeDocumentMoniker": "WebApplication1\\Views\\Event\\JoinToEvent.cshtml",
-              "ToolTip": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\WebApplication1\\Views\\Event\\JoinToEvent.cshtml",
-              "RelativeToolTip": "WebApplication1\\Views\\Event\\JoinToEvent.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-03-24T16:11:48.319Z",
+              "Title": ".env",
+              "DocumentMoniker": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\WebApplication1\\.env",
+              "RelativeDocumentMoniker": "WebApplication1\\.env",
+              "ToolTip": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\WebApplication1\\.env",
+              "RelativeToolTip": "WebApplication1\\.env",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-04-07T16:42:58.586Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "TestController.cs",
-              "DocumentMoniker": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\WebApplication1\\Controllers\\TestController.cs",
-              "RelativeDocumentMoniker": "WebApplication1\\Controllers\\TestController.cs",
-              "ToolTip": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\WebApplication1\\Controllers\\TestController.cs",
-              "RelativeToolTip": "WebApplication1\\Controllers\\TestController.cs",
-              "ViewState": "AgIAABQAAADAzMzMzMwmwBQAAAANAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "SendEmailController.cs",
+              "DocumentMoniker": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\WebApplication1\\Controllers\\SendEmailController.cs",
+              "RelativeDocumentMoniker": "WebApplication1\\Controllers\\SendEmailController.cs",
+              "ToolTip": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\WebApplication1\\Controllers\\SendEmailController.cs",
+              "RelativeToolTip": "WebApplication1\\Controllers\\SendEmailController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAA2AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-24T16:05:17.779Z"
+              "WhenOpened": "2025-04-07T16:42:52.583Z",
+              "EditorCaption": ""
             }
           ]
         }
