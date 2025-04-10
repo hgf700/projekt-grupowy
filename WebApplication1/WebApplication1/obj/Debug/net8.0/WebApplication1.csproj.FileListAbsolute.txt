@@ -171,3 +171,5 @@ C:\Users\USER098\Documents\GitHub\projekt-grupowy\WebApplication1\WebApplication
 C:\Users\USER098\Documents\GitHub\projekt-grupowy\WebApplication1\WebApplication1\obj\Debug\net8.0\WebApplication1.csproj.AssemblyReference.cache
 C:\Users\USER098\Documents\GitHub\projekt-grupowy\WebApplication1\WebApplication1\obj\Debug\net8.0\WebAppli.7D14BD69.Up2Date
 C:\Users\USER098\Documents\GitHub\projekt-grupowy\WebApplication1\WebApplication1\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\USER098\Documents\GitHub\projekt-grupowy\WebApplication1\WebApplication1\bin\Debug\net8.0\DotNetEnv.dll
+C:\Users\USER098\Documents\GitHub\projekt-grupowy\WebApplication1\WebApplication1\bin\Debug\net8.0\Sprache.dll

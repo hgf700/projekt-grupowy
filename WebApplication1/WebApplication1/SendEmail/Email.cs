@@ -7,38 +7,41 @@ namespace WebApplication1.SendEmail
     {
         public void SendEmail(string toEmail, string subject, string body)
         {
-            // Pobieranie z ENV / konfiguracji
-            string senderEmail = Environment.GetEnvironmentVariable("SENDER_EMAIL");
-            string senderPassword = Environment.GetEnvironmentVariable("SENDER_PASSWORD");
+            // Mailtrap SMTP dane z ENV
+            string smtpUser = Environment.GetEnvironmentVariable("MAILTRAP_SENDER_USER");
+            string smtpPass = Environment.GetEnvironmentVariable("MAILTRAP_SENDER_PASS");
 
-            if (string.IsNullOrEmpty(senderEmail) || string.IsNullOrEmpty(senderPassword))
+            if (string.IsNullOrEmpty(smtpUser) || string.IsNullOrEmpty(smtpPass))
             {
-                throw new Exception("Brakuje zmiennych środowiskowych: EMAIL_USER lub EMAIL_PASS");
+                throw new Exception("Brakuje zmiennych środowiskowych: MAILTRAP_USER lub MAILTRAP_PASS");
             }
 
-            var fromAddress = new MailAddress(senderEmail, "bilety Ø dostawca", System.Text.Encoding.UTF8);
+            var fromAddress = new MailAddress("test@example.com", "Mailtrap Test", System.Text.Encoding.UTF8);
             var toAddress = new MailAddress(toEmail);
 
             using (var message = new MailMessage(fromAddress, toAddress)
             {
-                Subject = subject + " ←↑→↓",
-                Body = body + "\nStrzałki: ←↑→↓",
+                Subject = subject,
+                Body = body,
                 SubjectEncoding = System.Text.Encoding.UTF8,
                 BodyEncoding = System.Text.Encoding.UTF8
             })
             {
                 var smtp = new SmtpClient
                 {
-                    Host = "smtp.gmail.com",
-                    Port = 587,
+                    Host = "sandbox.smtp.mailtrap.io",
+                    Port = 2525, 
                     EnableSsl = true,
                     DeliveryMethod = SmtpDeliveryMethod.Network,
-                    Credentials = new NetworkCredential(senderEmail, senderPassword),
+                    Credentials = new NetworkCredential(smtpUser, smtpPass),
                     Timeout = 20000
                 };
 
                 smtp.Send(message);
+                System.Console.WriteLine("Sent");
             }
         }
     }
 }
+
+
