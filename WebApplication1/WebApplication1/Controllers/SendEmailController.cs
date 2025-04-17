@@ -24,7 +24,14 @@ namespace WebApplication1.Controllers
         {
             string toEmail = docelowyemail;
             string subject = "Testowy temat";
-            string body = "Wiadomość testowa";
+            string body = @"
+                <html>
+                    <body style='background-color:#f0f0f0; padding:20px; font-family:Arial;'>
+                        <h2 style='color:#333;'>Wiadomość testowa</h2>
+                        <p>To jest testowy email z grafiką.</p>
+                    </body>
+                </html>";
+
 
             try
             {
