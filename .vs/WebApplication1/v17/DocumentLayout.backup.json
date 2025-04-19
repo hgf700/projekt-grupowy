@@ -1,0 +1,122 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|c:\\users\\user098\\documents\\github\\projekt-grupowy\\webapplication1\\controllers\\sendemailcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\controllers\\sendemailcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|c:\\users\\user098\\documents\\github\\projekt-grupowy\\webapplication1\\views\\event\\jointoevent.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\views\\event\\jointoevent.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|c:\\users\\user098\\documents\\github\\projekt-grupowy\\webapplication1\\models\\event.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\models\\event.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|c:\\users\\user098\\documents\\github\\projekt-grupowy\\webapplication1\\controllers\\testcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\controllers\\testcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|c:\\users\\user098\\documents\\github\\projekt-grupowy\\webapplication1\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|c:\\users\\user098\\documents\\github\\projekt-grupowy\\webapplication1\\views\\sendemail\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\views\\sendemail\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 6,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "JoinToEvent.cshtml",
+              "DocumentMoniker": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\Views\\Event\\JoinToEvent.cshtml",
+              "RelativeDocumentMoniker": "WebApplication1\\Views\\Event\\JoinToEvent.cshtml",
+              "ToolTip": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\Views\\Event\\JoinToEvent.cshtml",
+              "RelativeToolTip": "WebApplication1\\Views\\Event\\JoinToEvent.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-04-19T14:12:54.942Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Event.cs",
+              "DocumentMoniker": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\Models\\Event.cs",
+              "RelativeDocumentMoniker": "WebApplication1\\Models\\Event.cs",
+              "ToolTip": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\Models\\Event.cs",
+              "RelativeToolTip": "WebApplication1\\Models\\Event.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-19T13:41:51.985Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\appsettings.json",
+              "RelativeDocumentMoniker": "WebApplication1\\appsettings.json",
+              "ToolTip": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\appsettings.json",
+              "RelativeToolTip": "WebApplication1\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-04-19T13:40:45.289Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "TestController.cs",
+              "DocumentMoniker": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\Controllers\\TestController.cs",
+              "RelativeDocumentMoniker": "WebApplication1\\Controllers\\TestController.cs",
+              "ToolTip": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\Controllers\\TestController.cs",
+              "RelativeToolTip": "WebApplication1\\Controllers\\TestController.cs",
+              "ViewState": "AgIAACIAAACAzszMzMwuwEUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-19T10:50:00.234Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\Views\\SendEmail\\Index.cshtml",
+              "RelativeDocumentMoniker": "WebApplication1\\Views\\SendEmail\\Index.cshtml",
+              "ToolTip": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\Views\\SendEmail\\Index.cshtml",
+              "RelativeToolTip": "WebApplication1\\Views\\SendEmail\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-04-17T14:20:41.378Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SendEmailController.cs",
+              "DocumentMoniker": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\Controllers\\SendEmailController.cs",
+              "RelativeDocumentMoniker": "WebApplication1\\Controllers\\SendEmailController.cs",
+              "ToolTip": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\Controllers\\SendEmailController.cs",
+              "RelativeToolTip": "WebApplication1\\Controllers\\SendEmailController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-10T19:43:58.535Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
