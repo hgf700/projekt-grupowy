@@ -11,17 +11,25 @@ namespace WebApplication1.Models
 
         public DbSet<User> Users { get; set; }
         public DbSet<Event> Events { get; set; }
+        public DbSet<UserEvent> UserEvents { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //base.OnModelCreating(modelBuilder);
+            base.OnModelCreating(modelBuilder);
 
-            // Configuring the one-to-many relationship between User and Event
-            //modelBuilder.Entity<Event>()
-            //    .HasOne(e => e.User)              // Each Event has one User
-            //    .WithMany(u => u.Events)          // Each User has many Events
-            //    .HasForeignKey(e => e.UserId)     // The foreign key in Event is UserId
-            //    .OnDelete(DeleteBehavior.Cascade); // Optional: set delete behavior if necessary (e.g., cascade delete)
+            modelBuilder.Entity<UserEvent>()
+                .HasKey(ue => new { ue.UserId, ue.EventId }); // klucz złożony
+
+            modelBuilder.Entity<UserEvent>()
+                .HasOne(ue => ue.User)
+                .WithMany(u => u.UserEvents)
+                .HasForeignKey(ue => ue.UserId);
+
+            modelBuilder.Entity<UserEvent>()
+                .HasOne(ue => ue.Event)
+                .WithMany(e => e.UserEvents)
+                .HasForeignKey(ue => ue.EventId);
         }
+
     }
 }

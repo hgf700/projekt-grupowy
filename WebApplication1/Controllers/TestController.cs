@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
+[ApiController]
+[Route("test")]
 public class TestController : Controller
 {
     private readonly event_base _context;
@@ -20,7 +22,7 @@ public class TestController : Controller
     }
 
     //testowe narazie
-    [HttpGet]
+    [HttpGet("test")]
     public async Task<IActionResult> GetEvents()
     {
         try
@@ -63,14 +65,14 @@ public class TestController : Controller
         }
     }
 
-    [HttpGet]
+    [HttpGet("event")]
     public IActionResult SaveJsonToDb()
     {
         // Zwrócenie widoku SaveJsonToDb.cshtml
         return View();
     }
 
-    [HttpPost]
+    [HttpPost("event")]
     public async Task<IActionResult> SaveEventJsonToDb()
     {
         try
@@ -104,10 +106,10 @@ public class TestController : Controller
 
             var entity = new Event
             {
-                EventId = firstEvent.Id,
+                ExternalEventId = firstEvent.Id,
                 TypeOfEvent = firstEvent.Type,
                 NameOfEvent = firstEvent.Name,
-                Url = firstEvent.Url,
+                UrlOfEvent = firstEvent.Url,
                 PhotoUrl = firstEvent.Images?.FirstOrDefault()?.Url,
                 SalesStartDate = DateTime.Parse(firstEvent.Sales?.Public?.StartDateTime ?? DateTime.MinValue.ToString()),
                 SalesEndDate = DateTime.Parse(firstEvent.Sales?.Public?.EndDateTime ?? DateTime.MinValue.ToString()),
@@ -115,8 +117,7 @@ public class TestController : Controller
                 EndOfEvent = DateTime.Parse(firstEvent.Dates?.End?.DateTime ?? DateTime.MinValue.ToString()),
                 Address = firstEvent.Embedded?.Venues?.FirstOrDefault()?.Address?.Line1,
                 NameOfClub = firstEvent.Embedded?.Venues?.FirstOrDefault()?.Name,
-                Classifications = firstEvent.Type, // Możesz podmienić, jeśli masz inne źródło
-                UserId = 1 // ← wstaw ID zalogowanego użytkownika
+                Classifications = firstEvent.Type // Możesz podmienić, jeśli masz inne źródło
             };
 
 

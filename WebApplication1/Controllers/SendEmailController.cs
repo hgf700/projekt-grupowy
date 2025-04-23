@@ -3,6 +3,8 @@ using WebApplication1.SendEmail;
 
 namespace WebApplication1.Controllers
 {
+    [ApiController]
+    [Route("email")]
     public class SendEmailController : Controller
     {
         private readonly Email _emailService;
@@ -13,13 +15,13 @@ namespace WebApplication1.Controllers
             _emailService = new Email();
         }
 
-        [HttpGet]
+        [HttpGet("send")]
         public IActionResult Index()
         {
             return View();
         }
 
-        [HttpPost]
+        [HttpPost("send")]
         public IActionResult SendEmailForm()
         {
             string toEmail = docelowyemail;

@@ -7,6 +7,8 @@ using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
+    [ApiController]
+    [Route("event")]
     public class EventController : Controller
     {
         private readonly HttpClient _httpClient;
@@ -16,7 +18,7 @@ namespace WebApplication1.Controllers
             _httpClient = httpClient;
         }
 
-        [HttpGet]
+        [HttpGet("join")]
         public IActionResult JoinToEvent()
         {
             return View();
@@ -24,7 +26,7 @@ namespace WebApplication1.Controllers
 
         //Chyba trzeba dac tylko pola z miastem i moze data? 
 
-        [HttpPost]
+        [HttpPost("join")]
         public async Task<IActionResult> JoinToEvent(Event eventDetails)
         {
             if (!ModelState.IsValid)
