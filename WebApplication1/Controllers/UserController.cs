@@ -38,7 +38,7 @@ namespace WebApplication1.Controllers
 
         [HttpPost("create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateUser(UserViewModel model)
+        public async Task<IActionResult> CreateUser([FromForm] UserViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -49,14 +49,16 @@ namespace WebApplication1.Controllers
                     Password = model.Password
                 };
 
-                _context.Users.Add(user);  // Dodajemy użytkownika do kontekstu
-                await _context.SaveChangesAsync();  // Zapisujemy zmiany do bazy danych
+                _context.Users.Add(user);
+                await _context.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(model);  // Zwracamy widok w przypadku błędu
+            return View(model);
         }
+
+
 
 
         // Widok edycji użytkownika

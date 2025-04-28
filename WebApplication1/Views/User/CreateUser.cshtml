@@ -9,17 +9,17 @@
 <form asp-action="CreateUser" method="post" enctype="application/x-www-form-urlencoded">
     <div class="form-group">
         <label for="Name">Name</label>
-        <input type="text" id="Name" name="Name" class="form-control" value="@Model.Name" required />
+        <input type="text" id="Name" name="Name" class="form-control"/>
     </div>
 
     <div class="form-group">
         <label for="Email">Email</label>
-        <input type="email" id="Email" name="Email" class="form-control" value="@Model.Email" required />
+        <input type="email" id="Email" name="Email" class="form-control"/>
     </div>
 
     <div class="form-group">
         <label for="Password">Password</label>
-        <input type="password" id="Password" name="Password" class="form-control" value="@Model.Password" required />
+        <input type="password" id="Password" name="Password" class="form-control" />
     </div>
 
     <button type="submit" class="btn btn-primary">Create</button>
