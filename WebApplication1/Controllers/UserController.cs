@@ -58,9 +58,6 @@ namespace WebApplication1.Controllers
             return View(model);
         }
 
-
-
-
         // Widok edycji użytkownika
         [HttpGet("edit/{id}")]
         public async Task<IActionResult> EditUser(int id)

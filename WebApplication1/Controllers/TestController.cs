@@ -7,6 +7,10 @@ using WebApplication1.Models;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using QRCoder;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 
 [ApiController]
 [Route("test")]
@@ -120,11 +124,21 @@ public class TestController : Controller
                 Classifications = firstEvent.Type // Możesz podmienić, jeśli masz inne źródło
             };
 
-
             _context.Events.Add(entity);
             await _context.SaveChangesAsync();
 
-            return Ok("Zapisano do bazy");
+            string dir = Path.Combine(Directory.GetCurrentDirectory(), "Resources");
+            Directory.SetCurrentDirectory(dir);
+            string fullPath = Path.Combine(dir, $"QR_{firstEvent.Name}.png");
+
+            QRCodeGenerator qrGenerator = new QRCodeGenerator();
+            QRCodeData qrCodeData = qrGenerator.CreateQrCode(firstEvent.Url, QRCodeGenerator.ECCLevel.Q);
+
+            PngByteQRCode qrCode = new PngByteQRCode(qrCodeData);
+            byte[] qrCodeAsPng = qrCode.GetGraphic(20);
+
+            System.IO.File.WriteAllBytes(fullPath, qrCodeAsPng);
+            return Ok("zapisano i gen qr");
         }
         catch (Exception ex)
         {

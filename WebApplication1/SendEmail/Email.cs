@@ -32,7 +32,6 @@ namespace WebApplication1.SendEmail
             string dir = @"..\WebApplication1\Resources";
             Directory.SetCurrentDirectory(dir);
 
-
             string file = "cos.txt";
             // Create  the file attachment for this email message.
             Attachment data = new Attachment(file, MediaTypeNames.Text.Plain);
@@ -50,7 +49,6 @@ namespace WebApplication1.SendEmail
             image.TransferEncoding = TransferEncoding.Base64;
             htmlView.LinkedResources.Add(image);
 
-            
             using (var message = new MailMessage(fromAddress, toAddress)
             {
                 Subject = subject,
