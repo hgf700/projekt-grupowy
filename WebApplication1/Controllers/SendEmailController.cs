@@ -32,6 +32,7 @@ namespace WebApplication1.Controllers
                     <h2 style='color:#333;'>Wiadomość testowa</h2>
                     <p>To jest testowy email z grafiką.</p>
                     <img src='cid:testImage' alt='test'>
+                    <img src='cid:QRimage' alt='QR'>
                   </body>
                 </html>";
 

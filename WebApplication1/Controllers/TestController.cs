@@ -129,16 +129,26 @@ public class TestController : Controller
 
             string dir = Path.Combine(Directory.GetCurrentDirectory(), "Resources");
             Directory.SetCurrentDirectory(dir);
-            string fullPath = Path.Combine(dir, $"QR_{firstEvent.Name}.png");
+            string fullPath = Path.Combine(dir, $"QR.PNG");
 
             QRCodeGenerator qrGenerator = new QRCodeGenerator();
             QRCodeData qrCodeData = qrGenerator.CreateQrCode(firstEvent.Url, QRCodeGenerator.ECCLevel.Q);
 
-            PngByteQRCode qrCode = new PngByteQRCode(qrCodeData);
-            byte[] qrCodeAsPng = qrCode.GetGraphic(20);
+            Bitmap icon = (Bitmap)System.Drawing.Image.FromFile("logo.PNG");
 
-            System.IO.File.WriteAllBytes(fullPath, qrCodeAsPng);
-            return Ok("zapisano i gen qr");
+            QRCode qrCode = new QRCode(qrCodeData);
+            Bitmap qrCodeImage = qrCode.GetGraphic(
+                pixelsPerModule: 5,
+                darkColor: Color.FromArgb(0, 0, 255),
+                lightColor: Color.FromArgb(255, 0, 0),
+                icon: icon,
+                iconSizePercent: 20,
+                iconBorderWidth: 20,
+                drawQuietZones: true                
+            );
+
+            qrCodeImage.Save(fullPath, ImageFormat.Png);
+            return Ok("Zapisano QR z bitmapą");
         }
         catch (Exception ex)
         {

@@ -45,14 +45,23 @@ namespace WebApplication1.SendEmail
 
             string imagePath = Path.Combine("test.jpg");
             LinkedResource image = new LinkedResource(imagePath, MediaTypeNames.Image.Jpeg);
+
+            string pngPath = Path.Combine("QR.png");
+            LinkedResource pngimage = new LinkedResource(pngPath, MediaTypeNames.Image.Png);
+
             image.ContentId = "testImage"; // ID dla cid
             image.TransferEncoding = TransferEncoding.Base64;
+
+            pngimage.ContentId = "QRimage";
+            pngimage.TransferEncoding = TransferEncoding.Base64;
+
             htmlView.LinkedResources.Add(image);
+            htmlView.LinkedResources.Add(pngimage);
 
             using (var message = new MailMessage(fromAddress, toAddress)
             {
                 Subject = subject,
-                Body = body,
+                //Body = body, podwyzsza spam
                 SubjectEncoding = System.Text.Encoding.UTF8,
                 BodyEncoding = System.Text.Encoding.UTF8,
                 IsBodyHtml = true,

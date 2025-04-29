@@ -1,0 +1,3 @@
+qr
+https://github.com/codebude/QRCoder/wiki/Advanced-usage---QR-Code-renderers
+
