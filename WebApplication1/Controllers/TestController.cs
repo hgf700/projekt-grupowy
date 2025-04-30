@@ -11,6 +11,10 @@ using QRCoder;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using Microsoft.Identity.Client;
+using Twilio;
+using Twilio.Rest.Api.V2010.Account;
+using Twilio.Types;
 
 [ApiController]
 [Route("test")]
@@ -31,7 +35,7 @@ public class TestController : Controller
     {
         try
         {
-            string apiKey = Environment.GetEnvironmentVariable("API_KEY");
+            string apiKey = Environment.GetEnvironmentVariable("TICKETMASTER_API_KEY");
             string baseUrl = "https://app.ticketmaster.com/discovery/v2/events.json";
 
             // Parametry zapytania masz dc dokumentacje
@@ -81,7 +85,7 @@ public class TestController : Controller
     {
         try
         {
-            string apiKey = Environment.GetEnvironmentVariable("API_KEY");
+            string apiKey = Environment.GetEnvironmentVariable("TICKETMASTER_API_KEY");
             string baseUrl = "https://app.ticketmaster.com/discovery/v2/events.json";
             var query = new Dictionary<string, string>
             {
@@ -148,12 +152,33 @@ public class TestController : Controller
             );
 
             qrCodeImage.Save(fullPath, ImageFormat.Png);
-            return Ok("Zapisano QR z bitmapą");
+
+            bool.TryParse(Environment.GetEnvironmentVariable("TWILIO_SMS_SEND_STATE"), out bool twilio_sms_state);
+            if (twilio_sms_state == true)
+            {
+                string twilio_sid = Environment.GetEnvironmentVariable("TWILIO_SID");
+                string twilio_token = Environment.GetEnvironmentVariable("TWILIO_TOKEN");
+                string sms_receiver = Environment.GetEnvironmentVariable("SMS_RECEIVER");
+                string twilio_number = Environment.GetEnvironmentVariable("TWILIO_NUMBER");
+
+                TwilioClient.Init(twilio_sid, twilio_token);
+
+                var message = MessageResource.Create(
+                    body: "To jest testowa wiadomość SMS z Twilio",
+                    from: new Twilio.Types.PhoneNumber($"{twilio_number}"), 
+                    to: new Twilio.Types.PhoneNumber($"{sms_receiver}")   
+                );
+
+                Console.WriteLine(message.Body);
+
+            }
+
+            return Ok("wyslano");
+
         }
         catch (Exception ex)
         {
             return StatusCode(500, new { error = $"Błąd serwera: {ex.Message}" });
         }
     }
-
 }
