@@ -155,42 +155,57 @@ public class TestController : Controller
         }
     }
 
-    [HttpPost("create-checkout-session")]
+    [HttpPost("payment")]
     public IActionResult CreateCheckoutSession()
     {
         StripeConfiguration.ApiKey = Environment.GetEnvironmentVariable("STRIP_SEC_KEY");
 
+        string YOUR_DOMAIN = "https://localhost:7022";
+
         var options = new SessionCreateOptions
         {
-            PaymentMethodTypes = new List<string>
-        {
-            "card",
-        },
             LineItems = new List<SessionLineItemOptions>
-        {
-            new SessionLineItemOptions
             {
-                PriceData = new SessionLineItemPriceDataOptions
+                new SessionLineItemOptions
                 {
-                    Currency = "pln",
-                    UnitAmount = 1000, // 10.00 PLN
-                    ProductData = new SessionLineItemPriceDataProductDataOptions
+                    PriceData = new SessionLineItemPriceDataOptions
                     {
-                        Name = "Bilet na wydarzenie",
+                        Currency = "pln",
+                        UnitAmount = 1000, // 10.00 PLN
+                        ProductData = new SessionLineItemPriceDataProductDataOptions
+                        {
+                            Name = "Bilet na wydarzenie",
+                        },
                     },
+                    Quantity = 1,
                 },
-                Quantity = 1,
             },
-        },
+
             Mode = "payment",
-            SuccessUrl = "https://twojadomena.pl/event-success",
-            CancelUrl = "https://twojadomena.pl/payment-cancelled",
+            SuccessUrl = $"{YOUR_DOMAIN}/Test/PaymentSuccess",  // Akcja przekierowania na sukces
+            CancelUrl = $"{YOUR_DOMAIN}/Test/PaymentFailed",
         };
 
         var service = new SessionService();
         Session session = service.Create(options);
 
-        return Ok(new { url = session.Url });
+        return Redirect(session.Url);
+    }
+
+    [HttpGet("PaymentSuccess")]
+    public IActionResult PaymentSuccess()
+    {
+        // Logika po udanej płatności
+        ViewBag.Message = "Płatność zakończona sukcesem!";
+        return View("Success"); // Zwróć widok "Success.cshtml"
+    }
+
+    [HttpGet("PaymentFailed")]
+    public IActionResult PaymentFailed()
+    {
+        // Logika po nieudanej płatności
+        ViewBag.Message = "Płatność nie powiodła się. Spróbuj ponownie.";
+        return View("Failed"); // Zwróć widok "Failed.cshtml"
     }
 
 

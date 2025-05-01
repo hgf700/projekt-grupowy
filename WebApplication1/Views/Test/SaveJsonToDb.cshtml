@@ -8,6 +8,9 @@
     <button type="submit" class="btn btn-primary">Pobierz i Zapisz Event</button>
 </form>
 
+<form asp-controller="Test" asp-action="CreateCheckoutSession" method="post">
+    <button type="submit" class="btn btn-primary">platnosc</button>
+</form>
 
 @if (ViewBag.Message != null)
 {
