@@ -2,9 +2,9 @@
 using System.Net.Mail;
 using System.Net.Mime;
 
-namespace WebApplication1.SendEmail
+namespace WebApplication1.ProjectSERVICES
 {
-    public class Email
+    public class EmailService
     {
         public void SendEmail(string toEmail, string subject, string body)
         {
@@ -28,9 +28,13 @@ namespace WebApplication1.SendEmail
             MailAddress bcc = new MailAddress("manager1@contoso.com");
             MailAddress copy = new MailAddress("Notification_List@contoso.com");
 
-            
-            string dir = @"..\WebApplication1\Resources";
+            string dir = Path.Combine(Directory.GetCurrentDirectory(), "Resources");
             Directory.SetCurrentDirectory(dir);
+
+            //string dir = @"..\WebApplication1\Resources";
+
+            //string dir = Path.Combine(Directory.GetCurrentDirectory(), "Resources");
+            //string fullPath = Path.Combine(dir);
 
             string file = "cos.txt";
             // Create  the file attachment for this email message.

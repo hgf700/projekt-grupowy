@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WebApplication1.SendEmail;
+using WebApplication1.ProjectSERVICES;
 
 namespace WebApplication1.Controllers
 {
@@ -7,12 +7,12 @@ namespace WebApplication1.Controllers
     [Route("email")]
     public class SendEmailController : Controller
     {
-        private readonly Email _emailService;
+        private readonly EmailService _emailService;
         string docelowyemail = Environment.GetEnvironmentVariable("TARGET_EMAIL");
         public SendEmailController()
         {
             // Możesz też użyć DI, ale dla prostoty konstruktor bezparametrowy
-            _emailService = new Email();
+            _emailService = new EmailService();
         }
 
         [HttpGet("send")]

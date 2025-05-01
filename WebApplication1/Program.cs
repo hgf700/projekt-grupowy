@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Models;
 using DotNetEnv;
+using Stripe;
+using WebApplication1.ProjectSERVICES;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +18,11 @@ builder.Services.AddDbContext<event_base>(options =>
 
 // Rejestracja HttpClient jako us³ugi DI
 builder.Services.AddHttpClient();
+
+builder.Services.AddScoped<QrService>();
+builder.Services.AddScoped<SmsService>();
+builder.Services.AddScoped<EmailService>();
+
 
 var app = builder.Build();
 

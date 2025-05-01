@@ -15,6 +15,9 @@ using Microsoft.Identity.Client;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
 using Twilio.Types;
+using Stripe.Checkout;
+using Stripe;
+using WebApplication1.ProjectSERVICES;
 
 [ApiController]
 [Route("test")]
@@ -22,11 +25,15 @@ public class TestController : Controller
 {
     private readonly event_base _context;
     private readonly HttpClient _httpClient;
+    private readonly QrService _qrService;
+    private readonly SmsService _smsservice;
 
-    public TestController(HttpClient httpClient, event_base context)
+    public TestController(HttpClient httpClient, event_base context, QrService qrService, SmsService smsservice)
     {
         _httpClient = httpClient;
         _context=context;
+        _qrService=qrService;
+        _smsservice = smsservice;
     }
 
     //testowe narazie
@@ -112,7 +119,7 @@ public class TestController : Controller
             if (firstEvent == null)
                 return BadRequest("Nie znaleziono eventu.");
 
-            var entity = new Event
+            var entity = new WebApplication1.Models.Event
             {
                 ExternalEventId = firstEvent.Id,
                 TypeOfEvent = firstEvent.Type,
@@ -131,54 +138,60 @@ public class TestController : Controller
             _context.Events.Add(entity);
             await _context.SaveChangesAsync();
 
-            string dir = Path.Combine(Directory.GetCurrentDirectory(), "Resources");
-            Directory.SetCurrentDirectory(dir);
-            string fullPath = Path.Combine(dir, $"QR.PNG");
-
-            QRCodeGenerator qrGenerator = new QRCodeGenerator();
-            QRCodeData qrCodeData = qrGenerator.CreateQrCode(firstEvent.Url, QRCodeGenerator.ECCLevel.Q);
-
-            Bitmap icon = (Bitmap)System.Drawing.Image.FromFile("logo.PNG");
-
-            QRCode qrCode = new QRCode(qrCodeData);
-            Bitmap qrCodeImage = qrCode.GetGraphic(
-                pixelsPerModule: 5,
-                darkColor: Color.FromArgb(0, 0, 255),
-                lightColor: Color.FromArgb(255, 0, 0),
-                icon: icon,
-                iconSizePercent: 20,
-                iconBorderWidth: 20,
-                drawQuietZones: true                
-            );
-
-            qrCodeImage.Save(fullPath, ImageFormat.Png);
+            _qrService.GenerateQrCode(firstEvent.Url);
 
             bool.TryParse(Environment.GetEnvironmentVariable("TWILIO_SMS_SEND_STATE"), out bool twilio_sms_state);
+
             if (twilio_sms_state == true)
             {
-                string twilio_sid = Environment.GetEnvironmentVariable("TWILIO_SID");
-                string twilio_token = Environment.GetEnvironmentVariable("TWILIO_TOKEN");
-                string sms_receiver = Environment.GetEnvironmentVariable("SMS_RECEIVER");
-                string twilio_number = Environment.GetEnvironmentVariable("TWILIO_NUMBER");
-
-                TwilioClient.Init(twilio_sid, twilio_token);
-
-                var message = MessageResource.Create(
-                    body: "To jest testowa wiadomość SMS z Twilio",
-                    from: new Twilio.Types.PhoneNumber($"{twilio_number}"), 
-                    to: new Twilio.Types.PhoneNumber($"{sms_receiver}")   
-                );
-
-                Console.WriteLine(message.Body);
-
+                _smsservice.SendSMS(firstEvent.Url);
             }
 
             return Ok("wyslano");
-
         }
         catch (Exception ex)
         {
             return StatusCode(500, new { error = $"Błąd serwera: {ex.Message}" });
         }
     }
+
+    [HttpPost("create-checkout-session")]
+    public IActionResult CreateCheckoutSession()
+    {
+        StripeConfiguration.ApiKey = Environment.GetEnvironmentVariable("STRIP_SEC_KEY");
+
+        var options = new SessionCreateOptions
+        {
+            PaymentMethodTypes = new List<string>
+        {
+            "card",
+        },
+            LineItems = new List<SessionLineItemOptions>
+        {
+            new SessionLineItemOptions
+            {
+                PriceData = new SessionLineItemPriceDataOptions
+                {
+                    Currency = "pln",
+                    UnitAmount = 1000, // 10.00 PLN
+                    ProductData = new SessionLineItemPriceDataProductDataOptions
+                    {
+                        Name = "Bilet na wydarzenie",
+                    },
+                },
+                Quantity = 1,
+            },
+        },
+            Mode = "payment",
+            SuccessUrl = "https://twojadomena.pl/event-success",
+            CancelUrl = "https://twojadomena.pl/payment-cancelled",
+        };
+
+        var service = new SessionService();
+        Session session = service.Create(options);
+
+        return Ok(new { url = session.Url });
+    }
+
+
 }
