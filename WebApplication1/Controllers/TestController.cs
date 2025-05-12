@@ -164,6 +164,8 @@ public class TestController : Controller
 
         var options = new SessionCreateOptions
         {
+
+
             LineItems = new List<SessionLineItemOptions>
             {
                 new SessionLineItemOptions
@@ -179,6 +181,7 @@ public class TestController : Controller
                     },
                     Quantity = 1,
                 },
+
             },
 
             Mode = "payment",

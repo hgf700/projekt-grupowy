@@ -4,6 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using WebApplication1.Models;
 using WebApplication1.Models.ViewModel;
 using System.Linq;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Google;
+
 
 namespace WebApplication1.Controllers
 {
@@ -35,6 +40,60 @@ namespace WebApplication1.Controllers
         {
             return View(new UserViewModel());
         }
+
+
+
+
+        [HttpGet("Login")]
+        public IActionResult Login()
+        {
+            var redirectUrl = Url.Action("GoogleResponse", "User");
+            var properties = new AuthenticationProperties
+            {
+                RedirectUri = redirectUrl,
+                Items = { { "LoginProvider", "Google" } }
+            };
+
+            return Challenge(properties, GoogleDefaults.AuthenticationScheme);
+        }
+
+        [HttpGet("GoogleResponse")]
+        public async Task<IActionResult> GoogleResponse()
+        {
+            var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            if (!result.Succeeded)
+                return RedirectToAction("Index");
+
+            var emailClaim = result.Principal.FindFirst(ClaimTypes.Email)?.Value;
+            if (string.IsNullOrEmpty(emailClaim))
+            {
+                return RedirectToAction("LoginFailed");
+            }
+
+            var claims = result.Principal.Claims
+               .Select(c => new { c.Type, c.Value });
+
+            // Logowanie użytkownika w systemie
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, result.Principal);
+
+            return View(claims);
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            //return Redirect("https://accounts.google.com/logout");
+
+            return RedirectToAction("Index", "User");
+        }
+
+
+
+
+
+
+
+
 
         [HttpPost("create")]
         [ValidateAntiForgeryToken]
