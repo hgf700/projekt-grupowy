@@ -5,20 +5,25 @@ using Stripe;
 using WebApplication1.ProjectSERVICES;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Identity;
+using WebApplication1.Areas.Identity.Data;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Wczytaj zmienne œrodowiskowe z pliku .env (opcjonalnie, jeœli u¿ywasz DotNetEnv)
-DotNetEnv.Env.Load(); // <- odkomentuj jeœli masz .env
+// Wczytaj zmienne ï¿½rodowiskowe z pliku .env (opcjonalnie, jeï¿½li uï¿½ywasz DotNetEnv)
+DotNetEnv.Env.Load(); // <- odkomentuj jeï¿½li masz .env
 
-// Rejestracja kontrolerów z widokami
+// Rejestracja kontrolerï¿½w z widokami
 builder.Services.AddControllersWithViews();
 
-// Rejestracja DbContext z konfiguracj¹ po³¹czenia
-builder.Services.AddDbContext<event_base>(options =>
+// Rejestracja DbContext z konfiguracjï¿½ poï¿½ï¿½czenia
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Rejestracja HttpClient jako us³ugi DI
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
+
+// Rejestracja HttpClient jako usï¿½ugi DI
 builder.Services.AddHttpClient();
 
 builder.Services.AddScoped<QrService>();
@@ -30,9 +35,47 @@ builder.Services.AddAuthorization();
 
 
 
-//wszystko do oauth
+//identity  !!!!!!!!!!
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    // Password settings.
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    //options.Password.RequireUppercase = true;
+    options.Password.RequiredLength = 1;
+
+    // Lockout settings.
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
+    options.Lockout.MaxFailedAccessAttempts = 10;
+    options.Lockout.AllowedForNewUsers = true;
+
+    // User settings.
+    options.User.AllowedUserNameCharacters =
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+    options.User.RequireUniqueEmail = false;
 
 
+});
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    // Cookie settings
+    options.Cookie.HttpOnly = true;
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+
+    options.LoginPath = "/Identity/Account/Login";
+    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+    options.LogoutPath = "/Identity/Account/Logout";
+    options.SlidingExpiration = true;
+});
+
+
+
+
+
+
+
+//wszystko do oauth !!!!!!!!!!
 
 string googleClientId = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID");
 
@@ -66,6 +109,9 @@ builder.Services.AddAuthentication(options =>
     options.ClientSecret = googleClientSecret;
     options.CallbackPath = "/signin-google";
 });
+
+builder.Services.AddRazorPages(); // <--- dodaj to
+
 
 var app = builder.Build();
 
@@ -121,5 +167,7 @@ app.UseRouting();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapRazorPages();
 
 app.Run();

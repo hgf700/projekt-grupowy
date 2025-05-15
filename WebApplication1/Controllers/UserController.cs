@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.Google;
+using WebApplication1.Areas.Identity.Data;
 
 
 namespace WebApplication1.Controllers
@@ -16,9 +17,9 @@ namespace WebApplication1.Controllers
     [Route("user")]
     public class UserController : Controller
     {
-        private readonly event_base _context;
+        private readonly ApplicationDbContext _context;
 
-        public UserController(event_base context)
+        public UserController(ApplicationDbContext context)
         {
             _context = context;
         }

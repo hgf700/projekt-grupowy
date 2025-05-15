@@ -18,18 +18,19 @@ using Twilio.Types;
 using Stripe.Checkout;
 using Stripe;
 using WebApplication1.ProjectSERVICES;
+using WebApplication1.Areas.Identity.Data;
 
 [ApiController]
 [Route("test")]
 public class TestController : Controller
 {
-    private readonly event_base _context;
+    private readonly ApplicationDbContext _context;
     private readonly HttpClient _httpClient;
     private readonly QrService _qrService;
     private readonly SmsService _smsservice;
     string YOUR_DOMAIN = "https://localhost:7022";
 
-    public TestController(HttpClient httpClient, event_base context, QrService qrService, SmsService smsservice)
+    public TestController(HttpClient httpClient, ApplicationDbContext context, QrService qrService, SmsService smsservice)
     {
         _httpClient = httpClient;
         _context=context;
