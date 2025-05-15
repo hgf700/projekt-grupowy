@@ -27,9 +27,7 @@ namespace WebApplication1.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var users = await _context.Users  // Używamy DbSet<User> z kontekstu
-                                          .OrderBy(u => u.Name)
-                                          .ToListAsync();
+            var users = await _context.Users.ToListAsync();
 
             return View(users);
         }
@@ -38,7 +36,7 @@ namespace WebApplication1.Controllers
         [HttpGet("create")]
         public IActionResult CreateUser()
         {
-            return View(new UserViewModel());
+            return View(new User());
         }
 
 
@@ -97,13 +95,12 @@ namespace WebApplication1.Controllers
 
         [HttpPost("create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateUser([FromForm] UserViewModel model)
+        public async Task<IActionResult> CreateUser(User model)
         {
             if (ModelState.IsValid)
             {
                 var user = new User
                 {
-                    Name = model.Name,
                     Email = model.Email,
                     Password = model.Password
                 };
@@ -125,10 +122,9 @@ namespace WebApplication1.Controllers
             if (user == null)
                 return NotFound();
 
-            var model = new UserViewModel
+            var model = new User
             {
                 Id = user.Id,
-                Name = user.Name,
                 Email = user.Email,
                 Password = user.Password
             };
@@ -139,7 +135,7 @@ namespace WebApplication1.Controllers
         // Metoda edycji użytkownika
         [HttpPost("edit/{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditUser(int id, UserViewModel model)
+        public async Task<IActionResult> EditUser(int id, User model)
         {
             if (id != model.Id)
                 return BadRequest();
@@ -150,7 +146,6 @@ namespace WebApplication1.Controllers
                 if (user == null)
                     return NotFound();
 
-                user.Name = model.Name;
                 user.Email = model.Email;
                 user.Password = model.Password;
 

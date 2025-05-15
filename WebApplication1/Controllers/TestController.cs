@@ -27,6 +27,7 @@ public class TestController : Controller
     private readonly HttpClient _httpClient;
     private readonly QrService _qrService;
     private readonly SmsService _smsservice;
+    string YOUR_DOMAIN = "https://localhost:7022";
 
     public TestController(HttpClient httpClient, event_base context, QrService qrService, SmsService smsservice)
     {
@@ -159,8 +160,6 @@ public class TestController : Controller
     public IActionResult CreateCheckoutSession()
     {
         StripeConfiguration.ApiKey = Environment.GetEnvironmentVariable("STRIP_SEC_KEY");
-
-        string YOUR_DOMAIN = "https://localhost:7022";
 
         var options = new SessionCreateOptions
         {
