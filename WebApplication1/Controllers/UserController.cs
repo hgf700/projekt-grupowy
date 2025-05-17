@@ -4,6 +4,12 @@ using Microsoft.EntityFrameworkCore;
 using WebApplication1.Models;
 using WebApplication1.Models.ViewModel;
 using System.Linq;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Google;
+using WebApplication1.Areas.Identity.Data;
+
 
 namespace WebApplication1.Controllers
 {
@@ -11,9 +17,9 @@ namespace WebApplication1.Controllers
     [Route("user")]
     public class UserController : Controller
     {
-        private readonly event_base _context;
+        private readonly ApplicationDbContext _context;
 
-        public UserController(event_base context)
+        public UserController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -22,9 +28,7 @@ namespace WebApplication1.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var users = await _context.Users  // Używamy DbSet<User> z kontekstu
-                                          .OrderBy(u => u.Name)
-                                          .ToListAsync();
+            var users = await _context.Users.ToListAsync();
 
             return View(users);
         }
@@ -33,18 +37,71 @@ namespace WebApplication1.Controllers
         [HttpGet("create")]
         public IActionResult CreateUser()
         {
-            return View(new UserViewModel());
+            return View(new User());
         }
+
+
+
+
+        [HttpGet("Login")]
+        public IActionResult Login()
+        {
+            var redirectUrl = Url.Action("GoogleResponse", "User");
+            var properties = new AuthenticationProperties
+            {
+                RedirectUri = redirectUrl,
+                Items = { { "LoginProvider", "Google" } }
+            };
+
+            return Challenge(properties, GoogleDefaults.AuthenticationScheme);
+        }
+
+        [HttpGet("GoogleResponse")]
+        public async Task<IActionResult> GoogleResponse()
+        {
+            var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            if (!result.Succeeded)
+                return RedirectToAction("Index");
+
+            var emailClaim = result.Principal.FindFirst(ClaimTypes.Email)?.Value;
+            if (string.IsNullOrEmpty(emailClaim))
+            {
+                return RedirectToAction("LoginFailed");
+            }
+
+            var claims = result.Principal.Claims
+               .Select(c => new { c.Type, c.Value });
+
+            // Logowanie użytkownika w systemie
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, result.Principal);
+
+            return View(claims);
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            //return Redirect("https://accounts.google.com/logout");
+
+            return RedirectToAction("Index", "User");
+        }
+
+
+
+
+
+
+
+
 
         [HttpPost("create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateUser([FromForm] UserViewModel model)
+        public async Task<IActionResult> CreateUser(User model)
         {
             if (ModelState.IsValid)
             {
                 var user = new User
                 {
-                    Name = model.Name,
                     Email = model.Email,
                     Password = model.Password
                 };
@@ -66,10 +123,9 @@ namespace WebApplication1.Controllers
             if (user == null)
                 return NotFound();
 
-            var model = new UserViewModel
+            var model = new User
             {
                 Id = user.Id,
-                Name = user.Name,
                 Email = user.Email,
                 Password = user.Password
             };
@@ -80,7 +136,7 @@ namespace WebApplication1.Controllers
         // Metoda edycji użytkownika
         [HttpPost("edit/{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditUser(int id, UserViewModel model)
+        public async Task<IActionResult> EditUser(int id, User model)
         {
             if (id != model.Id)
                 return BadRequest();
@@ -91,7 +147,6 @@ namespace WebApplication1.Controllers
                 if (user == null)
                     return NotFound();
 
-                user.Name = model.Name;
                 user.Email = model.Email;
                 user.Password = model.Password;
 
