@@ -14,7 +14,7 @@ builder.Services.AddControllersWithViews();
 
 // Rejestracja DbContext z konfiguracj¹ po³¹czenia
 builder.Services.AddDbContext<event_base>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection1")));
 
 // Rejestracja HttpClient jako us³ugi DI
 builder.Services.AddHttpClient();

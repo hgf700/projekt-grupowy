@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
 	<EnableWindowsForms>true</EnableWindowsForms>
 	<UseWindowsForms>true</UseWindowsForms>
+	<UserSecretsId>72543a91-6612-4a90-835f-f4865223704a</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,6 +26,10 @@
     <PackageReference Include="Stripe.net" Version="48.1.0" />
     <PackageReference Include="System.Drawing.Common" Version="9.0.4" />
     <PackageReference Include="Twilio" Version="7.10.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Test\" />
   </ItemGroup>
 
 </Project>

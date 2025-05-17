@@ -1,0 +1,43 @@
+﻿@model IEnumerable<WebApplication1.Models.Event>
+@{
+    Layout = "_Layout";
+
+    var city = ViewContext.HttpContext.Request.Query["city"].ToString();
+    var startDate = ViewContext.HttpContext.Request.Query["startDate"].ToString();
+}
+
+<h2>Lista Eventów</h2>
+
+<form method="get" asp-action="EventList" class="mb-4">
+    <div>
+        <label>Miasto:</label>
+        <input type="text" name="city" value="@city" />
+    </div>
+    <div>
+        <label>Data od:</label>
+        <input type="date" name="startDate" value="@startDate" />
+    </div>
+    <button type="submit">Filtruj</button>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Typ</th>
+            <th>Nazwa</th>
+            <th>Start</th>
+            <th>Adres</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var ev in Model)
+        {
+            <tr>
+                <td>@ev.TypeOfEvent</td>
+                <td>@ev.NameOfEvent</td>
+                <td>@ev.StartOfEvent.ToString("g")</td>
+                <td>@ev.Address</td>
+            </tr>
+        }
+    </tbody>
+</table>
