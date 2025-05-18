@@ -7,7 +7,7 @@ using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
-    [Route("")]
+    [Route("Event")]
     public class EventController : Controller
     {
         private readonly HttpClient _httpClient;
@@ -20,16 +20,20 @@ namespace WebApplication1.Controllers
         }
 
         [HttpGet("")]
-        public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 20)
+        public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 20, string city = null)
         {
-            //await FetchAndSaveEvents();
+            IQueryable<Event> query = _context.Events;
 
-            // Pobierz wszystkie eventy z bazy danych (można też filtrować wcześniej po potrzebie)
-            var allEvents = await _context.Events
-                .OrderBy(e => e.StartOfEvent)
-                .ToListAsync();
+            await FetchAndSaveEvents();
 
-            // Grupowanie po nazwie, i wybieramy pierwszy event z każdej grupy
+            if (!string.IsNullOrWhiteSpace(city))
+            {
+                ViewBag.City = city;
+                query = query.Where(e => e.Address.Contains(city) || e.NameOfClub.Contains(city));
+            }
+
+            var allEvents = await query.OrderBy(e => e.StartOfEvent).ToListAsync();
+
             var uniqueEvents = allEvents
                 .GroupBy(e => e.NameOfEvent)
                 .Select(g => g.First())
@@ -45,7 +49,7 @@ namespace WebApplication1.Controllers
             ViewBag.TotalPages = (int)Math.Ceiling(totalEvents / (double)pageSize);
             ViewBag.CurrentPage = pageNumber;
 
-            return View("EventList", paginatedEvents);
+            return View("Index", paginatedEvents);
         }
 
         private async Task FetchAndSaveEvents()
@@ -53,31 +57,51 @@ namespace WebApplication1.Controllers
             try
             {
                 string apiKey = Environment.GetEnvironmentVariable("TICKETMASTER_API_KEY");
+                if (string.IsNullOrWhiteSpace(apiKey))
+                {
+                    Console.WriteLine("Brak klucza API.");
+                    return;
+                }
+
                 string baseUrl = "https://app.ticketmaster.com/discovery/v2/events.json";
 
                 var query = new Dictionary<string, string>
                 {
                     { "apikey", apiKey },
-                    { "size", "100" },
-                    { "countryCode", "PL" }
+                    { "size", "100" }, // Gwarantuje pobranie 100 eventów
+                    { "country", "Poland" }
                 };
 
                 string url = QueryHelpers.AddQueryString(baseUrl, query);
                 HttpResponseMessage response = await _httpClient.GetAsync(url);
 
                 if (!response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine($"Błąd API: {response.StatusCode}");
                     return;
+                }
 
                 string json = await response.Content.ReadAsStringAsync();
-                var ticketmasterData = JsonSerializer.Deserialize<TicketmasterResponse>(json);
 
-                if (ticketmasterData?.Embedded?.Events == null)
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+
+                var ticketmasterData = JsonSerializer.Deserialize<TicketmasterResponse>(json, options);
+
+                if (ticketmasterData?.Embedded?.Events == null || ticketmasterData.Embedded.Events.Count == 0)
+                {
+                    Console.WriteLine("Brak wydarzeń do zapisania.");
                     return;
+                }
 
                 foreach (var ev in ticketmasterData.Embedded.Events)
                 {
                     if (_context.Events.Any(e => e.ExternalEventId == ev.Id))
                         continue;
+
+                    var venue = ev.Embedded?.Venues?.FirstOrDefault();
 
                     var newEvent = new WebApplication1.Models.Event
                     {
@@ -86,24 +110,101 @@ namespace WebApplication1.Controllers
                         NameOfEvent = ev.Name,
                         UrlOfEvent = ev.Url,
                         PhotoUrl = ev.Images?.FirstOrDefault()?.Url,
-                        SalesStartDate = DateTime.Parse(ev.Sales?.Public?.StartDateTime ?? DateTime.MinValue.ToString()),
-                        SalesEndDate = DateTime.Parse(ev.Sales?.Public?.EndDateTime ?? DateTime.MinValue.ToString()),
-                        StartOfEvent = DateTime.Parse(ev.Dates?.Start?.DateTime ?? DateTime.MinValue.ToString()),
-                        EndOfEvent = DateTime.Parse(ev.Dates?.End?.DateTime ?? DateTime.MinValue.ToString()),
-                        Address = ev.Embedded?.Venues?.FirstOrDefault()?.Address?.Line1,
-                        NameOfClub = ev.Embedded?.Venues?.FirstOrDefault()?.Name,
-                        Classifications = ev.Type
+                        StartOfEvent = DateTime.TryParse(ev.Dates?.Start?.DateTime, out var eStart) ? eStart : DateTime.MinValue,
+                        Address = venue?.Address?.Line1,
+                        City = venue?.City?.Name,
+                        Country = venue?.Country?.Name,
+                        NameOfClub = venue?.Name,
                     };
 
                     _context.Events.Add(newEvent);
                 }
 
                 await _context.SaveChangesAsync();
+                Console.WriteLine($"Zapisano {ticketmasterData.Embedded.Events.Count} wydarzeń.");
             }
-            catch
+            catch (Exception ex)
             {
-                // Można dodać logowanie błędu
+                Console.WriteLine($"Błąd podczas pobierania wydarzeń: {ex.Message}");
             }
         }
+
+
+
+        [HttpGet("SearchRequiredEvent")]
+        public async Task<IActionResult> SearchRequiredEvent(string city)
+        {
+            if (string.IsNullOrWhiteSpace(city))
+                return BadRequest("Miasto jest wymagane.");
+
+            try
+            {
+                string apiKey = Environment.GetEnvironmentVariable("TICKETMASTER_API_KEY");
+                if (string.IsNullOrWhiteSpace(apiKey))
+                    return StatusCode(500, "Brak klucza API");
+
+                string baseUrl = "https://app.ticketmaster.com/discovery/v2/events.json";
+
+                var query = new Dictionary<string, string>
+        {
+            { "apikey", apiKey },
+            { "size", "20" },
+            { "city", city }
+        };
+
+                string url = QueryHelpers.AddQueryString(baseUrl, query);
+                HttpResponseMessage response = await _httpClient.GetAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                    return StatusCode((int)response.StatusCode, "Błąd podczas pobierania danych z Ticketmaster API");
+
+                string json = await response.Content.ReadAsStringAsync();
+                var ticketmasterData = JsonSerializer.Deserialize<TicketmasterResponse>(json);
+
+                if (ticketmasterData?.Embedded?.Events == null)
+                    return NotFound("Nie znaleziono wydarzeń.");
+
+                var resultEvents = new List<Event>();
+                foreach (var ev in ticketmasterData.Embedded.Events)
+                {
+                    if (_context.Events.Any(e => e.ExternalEventId == ev.Id))
+                        continue;
+
+                    var venue = ev.Embedded?.Venues?.FirstOrDefault();
+
+                    var newEvent = new WebApplication1.Models.Event
+                    {
+                        ExternalEventId = ev.Id,
+                        TypeOfEvent = ev.Type,
+                        NameOfEvent = ev.Name,
+                        UrlOfEvent = ev.Url,
+                        PhotoUrl = ev.Images?.FirstOrDefault()?.Url,
+                        StartOfEvent = DateTime.TryParse(ev.Dates?.Start?.DateTime, out var eStart) ? eStart : DateTime.MinValue,
+                        Address = venue?.Address?.Line1,
+                        City = venue?.City?.Name,
+                        Country = venue?.Country?.Name,
+                        NameOfClub = venue?.Name,
+                    };
+
+                    resultEvents.Add(newEvent);
+                    _context.Events.Add(newEvent);
+                }
+
+
+
+                await _context.SaveChangesAsync();
+
+                // Teraz zwróć listę Event (nie EventObject!)
+                return View("Index", resultEvents);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Wystąpił błąd: {ex.Message}");
+            }
+        }
+
+
     }
 }
+
