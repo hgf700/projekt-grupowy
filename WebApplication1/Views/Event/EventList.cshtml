@@ -2,13 +2,17 @@
 @{
     Layout = "_Layout";
 
-    var city = ViewContext.HttpContext.Request.Query["city"].ToString();
-    var startDate = ViewContext.HttpContext.Request.Query["startDate"].ToString();
+    var city = ViewBag.City ?? ViewContext.HttpContext.Request.Query["city"].ToString();
+    var startDate = ViewBag.StartDate ?? ViewContext.HttpContext.Request.Query["startDate"].ToString();
+
+    int currentPage = ViewBag.CurrentPage ?? 1;
+    int totalPages = ViewBag.TotalPages ?? 1;
 }
 
 <h2>Lista Eventów</h2>
 
-<form method="get" asp-action="EventList" class="mb-4">
+
+<form method="get" asp-action="Index" class="mb-4">
     <div>
         <label>Miasto:</label>
         <input type="text" name="city" value="@city" />
@@ -19,6 +23,39 @@
     </div>
     <button type="submit">Filtruj</button>
 </form>
+
+@if (totalPages > 1)
+{
+    <nav>
+        <ul class="pagination">
+
+            @* Poprzednia strona *@
+            @if (currentPage > 1)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="?pageNumber=@(currentPage - 1)&city=@city&startDate=@startDate">Poprzednia</a>
+                </li>
+            }
+
+            @* Numery stron *@
+            @for (int i = 1; i <= totalPages; i++)
+            {
+                <li class="page-item @(currentPage == i ? "active" : "")">
+                    <a class="page-link" href="?pageNumber=@i&city=@city&startDate=@startDate">@i</a>
+                </li>
+            }
+
+            @* Następna strona *@
+            @if (currentPage < totalPages)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="?pageNumber=@(currentPage + 1)&city=@city&startDate=@startDate">Następna</a>
+                </li>
+            }
+
+        </ul>
+    </nav>
+}
 
 <table class="table">
     <thead>
@@ -41,3 +78,36 @@
         }
     </tbody>
 </table>
+
+@if (totalPages > 1)
+{
+    <nav>
+        <ul class="pagination">
+
+            @* Poprzednia strona *@
+            @if (currentPage > 1)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="?pageNumber=@(currentPage - 1)&city=@city&startDate=@startDate">Poprzednia</a>
+                </li>
+            }
+
+            @* Numery stron *@
+            @for (int i = 1; i <= totalPages; i++)
+            {
+                <li class="page-item @(currentPage == i ? "active" : "")">
+                    <a class="page-link" href="?pageNumber=@i&city=@city&startDate=@startDate">@i</a>
+                </li>
+            }
+
+            @* Następna strona *@
+            @if (currentPage < totalPages)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="?pageNumber=@(currentPage + 1)&city=@city&startDate=@startDate">Następna</a>
+                </li>
+            }
+
+        </ul>
+    </nav>
+}

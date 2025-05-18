@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
+using WebApplication1.Areas.Identity.Data;
 using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
@@ -10,24 +11,41 @@ namespace WebApplication1.Controllers
     public class EventController : Controller
     {
         private readonly HttpClient _httpClient;
-        private readonly event_base _context;
+        private readonly ApplicationDbContext _context;
 
-        public EventController(HttpClient httpClient, event_base context)
+        public EventController(HttpClient httpClient, ApplicationDbContext context)
         {
             _httpClient = httpClient;
             _context = context;
         }
 
         [HttpGet("")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 20)
         {
-            await FetchAndSaveEvents();
+            //await FetchAndSaveEvents();
 
-            var events = await _context.Events
+            // Pobierz wszystkie eventy z bazy danych (można też filtrować wcześniej po potrzebie)
+            var allEvents = await _context.Events
                 .OrderBy(e => e.StartOfEvent)
                 .ToListAsync();
 
-            return View("EventList", events);
+            // Grupowanie po nazwie, i wybieramy pierwszy event z każdej grupy
+            var uniqueEvents = allEvents
+                .GroupBy(e => e.NameOfEvent)
+                .Select(g => g.First())
+                .ToList();
+
+            var totalEvents = uniqueEvents.Count;
+
+            var paginatedEvents = uniqueEvents
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            ViewBag.TotalPages = (int)Math.Ceiling(totalEvents / (double)pageSize);
+            ViewBag.CurrentPage = pageNumber;
+
+            return View("EventList", paginatedEvents);
         }
 
         private async Task FetchAndSaveEvents()
