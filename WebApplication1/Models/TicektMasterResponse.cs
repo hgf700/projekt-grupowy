@@ -8,7 +8,26 @@ namespace WebApplication1.Models
     {
         [JsonPropertyName("_embedded")]
         public Embedded Embedded { get; set; }
+
+        [JsonPropertyName("page")]
+        public PageInfo Page { get; set; }
     }
+
+    public class PageInfo
+    {
+        [JsonPropertyName("size")]
+        public int Size { get; set; }
+
+        [JsonPropertyName("totalElements")]
+        public int TotalElements { get; set; }
+
+        [JsonPropertyName("totalPages")]
+        public int TotalPages { get; set; }
+
+        [JsonPropertyName("number")]
+        public int Number { get; set; }
+    }
+
 
     public class Embedded
     {
