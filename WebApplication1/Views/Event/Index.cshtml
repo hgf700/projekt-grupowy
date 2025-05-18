@@ -2,49 +2,32 @@
 @{
     Layout = "_Layout";
 
-    var city = ViewBag.City ?? ViewContext.HttpContext.Request.Query["city"].ToString();
-    var startDate = ViewBag.StartDate ?? ViewContext.HttpContext.Request.Query["startDate"].ToString();
-
+    var city = ViewBag.City?.ToString() ?? ViewContext.HttpContext.Request.Query["city"].ToString();
     int currentPage = ViewBag.CurrentPage ?? 1;
     int totalPages = ViewBag.TotalPages ?? 1;
 }
 
 <h2>Lista Eventów</h2>
 
-
-@* <form method="get" asp-action="Index" class="mb-4"> *@
-@*     <div> *@
-@*         <label>Miasto:</label> *@
-@*         <input type="text" name="city" value="@city" /> *@
-@*     </div> *@
-@*     <div> *@
-@*         <label>Data od:</label> *@
-@*         <input type="date" name="startDate" value="@startDate" /> *@
-@*     </div> *@
-@*     <button type="submit">Filtruj</button> *@
-@* </form> *@
-
 <h2>Wyszukaj Event</h2>
 
 <form method="get" asp-action="SearchRequiredEvent" class="mb-4">
-    <div>
+    <div class="form-group">
         <label for="city">Miasto:</label>
-        <input type="text" name="city" id="city" value="@Context.Request.Query["city"]" />
+        <input type="text" name="city" id="city" class="form-control" value="@Html.Encode(city)" />
     </div>
-    <button type="submit">Szukaj</button>
+    <button type="submit" class="btn btn-primary mt-2">Szukaj</button>
 </form>
-
 
 @if (totalPages > 1)
 {
     <nav>
         <ul class="pagination">
-
             @* Poprzednia strona *@
             @if (currentPage > 1)
             {
                 <li class="page-item">
-                    <a class="page-link" href="?pageNumber=@(currentPage - 1)&city=@city&startDate=@startDate">Poprzednia</a>
+                    <a class="page-link" href="?pageNumber=@(currentPage - 1)&city=@Uri.EscapeDataString(city)">Poprzednia</a>
                 </li>
             }
 
@@ -52,7 +35,7 @@
             @for (int i = 1; i <= totalPages; i++)
             {
                 <li class="page-item @(currentPage == i ? "active" : "")">
-                    <a class="page-link" href="?pageNumber=@i&city=@city&startDate=@startDate">@i</a>
+                    <a class="page-link" href="?pageNumber=@i&city=@Uri.EscapeDataString(city)">@i</a>
                 </li>
             }
 
@@ -60,65 +43,42 @@
             @if (currentPage < totalPages)
             {
                 <li class="page-item">
-                    <a class="page-link" href="?pageNumber=@(currentPage + 1)&city=@city&startDate=@startDate">Następna</a>
+                    <a class="page-link" href="?pageNumber=@(currentPage + 1)&city=@Uri.EscapeDataString(city)">Następna</a>
                 </li>
             }
-
         </ul>
     </nav>
 }
 
-<table class="table">
+<table class="table table-striped">
     <thead>
         <tr>
             <th>Typ</th>
             <th>Nazwa</th>
             <th>Start</th>
             <th>Adres</th>
+            <th>Link</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var ev in Model)
         {
             <tr>
-                <td>@ev.TypeOfEvent</td>
-                <td>@ev.NameOfEvent</td>
+                <td>@Html.Encode(ev.TypeOfEvent)</td>
+                <td>@Html.Encode(ev.NameOfEvent)</td>
                 <td>@ev.StartOfEvent.ToString("g")</td>
-                <td>@ev.Address</td>
+                <td>@Html.Encode(ev.Address)</td>
+                <td>
+                    @if (!string.IsNullOrWhiteSpace(ev.UrlOfEvent))
+                    {
+                        <a href="@ev.UrlOfEvent" class="btn btn-warning btn-sm" target="_blank" rel="noopener noreferrer">Url do eventu</a>
+                    }
+                    else
+                    {
+                        <span class="text-muted">Brak linku</span>
+                    }
+                </td>
             </tr>
         }
     </tbody>
 </table>
-
-@if (totalPages > 1)
-{
-    <nav>
-        <ul class="pagination">
-
-            @* Poprzednia strona *@
-            @if (currentPage > 1)
-            {
-                <li class="page-item">
-                    <a class="page-link" href="?pageNumber=@(currentPage - 1)&city=@city&startDate=@startDate">Poprzednia</a>
-                </li>
-            }
-
-            @* Numery stron *@
-            @for (int i = 1; i <= totalPages; i++)
-            {
-                <li class="page-item @(currentPage == i ? "active" : "")">
-                    <a class="page-link" href="?pageNumber=@i&city=@city&startDate=@startDate">@i</a>
-                </li>
-            }
-
-            @* Następna strona *@
-            @if (currentPage < totalPages)
-            {
-                <li class="page-item">
-                    <a class="page-link" href="?pageNumber=@(currentPage + 1)&city=@city&startDate=@startDate">Następna</a>
-                </li>
-            }
-
-        </ul>
-    </nav>
-}

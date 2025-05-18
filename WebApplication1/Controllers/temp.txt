@@ -1,29 +1,46 @@
-
-        private async Task FetchAndSaveEvents()
+ private async Task FetchAndSaveEvents()
         {
             try
             {
                 string apiKey = Environment.GetEnvironmentVariable("TICKETMASTER_API_KEY");
+                if (string.IsNullOrWhiteSpace(apiKey))
+                {
+                    Console.WriteLine("Brak klucza API.");
+                    return;
+                }
+
                 string baseUrl = "https://app.ticketmaster.com/discovery/v2/events.json";
 
                 var query = new Dictionary<string, string>
                 {
                     { "apikey", apiKey },
-                    { "size", "100" },
-                    { "countryCode", "PL" }
+                    { "size", "100" }, // Gwarantuje pobranie 100 eventów
+                    { "country", "Poland" }
                 };
 
                 string url = QueryHelpers.AddQueryString(baseUrl, query);
                 HttpResponseMessage response = await _httpClient.GetAsync(url);
 
                 if (!response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine($"B³¹d API: {response.StatusCode}");
                     return;
+                }
 
                 string json = await response.Content.ReadAsStringAsync();
-                var ticketmasterData = JsonSerializer.Deserialize<TicketmasterResponse>(json);
 
-                if (ticketmasterData?.Embedded?.Events == null)
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+
+                var ticketmasterData = JsonSerializer.Deserialize<TicketmasterResponse>(json, options);
+
+                if (ticketmasterData?.Embedded?.Events == null || ticketmasterData.Embedded.Events.Count == 0)
+                {
+                    Console.WriteLine("Brak wydarzeñ do zapisania.");
                     return;
+                }
 
                 foreach (var ev in ticketmasterData.Embedded.Events)
                 {
@@ -45,13 +62,15 @@
                         Country = venue?.Country?.Name,
                         NameOfClub = venue?.Name,
                     };
+
                     _context.Events.Add(newEvent);
                 }
 
                 await _context.SaveChangesAsync();
+                Console.WriteLine($"Zapisano {ticketmasterData.Embedded.Events.Count} wydarzeñ.");
             }
-            catch
+            catch (Exception ex)
             {
-                // Mo¿na dodaæ logowanie b³êdu
+                Console.WriteLine($"B³¹d podczas pobierania wydarzeñ: {ex.Message}");
             }
         }

@@ -24,7 +24,7 @@ namespace WebApplication1.Controllers
         {
             IQueryable<Event> query = _context.Events;
 
-            await FetchAndSaveEvents();
+            //await FetchAndSaveEvents();
 
             if (!string.IsNullOrWhiteSpace(city))
             {
@@ -51,85 +51,6 @@ namespace WebApplication1.Controllers
 
             return View("Index", paginatedEvents);
         }
-
-        private async Task FetchAndSaveEvents()
-        {
-            try
-            {
-                string apiKey = Environment.GetEnvironmentVariable("TICKETMASTER_API_KEY");
-                if (string.IsNullOrWhiteSpace(apiKey))
-                {
-                    Console.WriteLine("Brak klucza API.");
-                    return;
-                }
-
-                string baseUrl = "https://app.ticketmaster.com/discovery/v2/events.json";
-
-                var query = new Dictionary<string, string>
-                {
-                    { "apikey", apiKey },
-                    { "size", "100" }, // Gwarantuje pobranie 100 eventów
-                    { "country", "Poland" }
-                };
-
-                string url = QueryHelpers.AddQueryString(baseUrl, query);
-                HttpResponseMessage response = await _httpClient.GetAsync(url);
-
-                if (!response.IsSuccessStatusCode)
-                {
-                    Console.WriteLine($"Błąd API: {response.StatusCode}");
-                    return;
-                }
-
-                string json = await response.Content.ReadAsStringAsync();
-
-                var options = new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true
-                };
-
-                var ticketmasterData = JsonSerializer.Deserialize<TicketmasterResponse>(json, options);
-
-                if (ticketmasterData?.Embedded?.Events == null || ticketmasterData.Embedded.Events.Count == 0)
-                {
-                    Console.WriteLine("Brak wydarzeń do zapisania.");
-                    return;
-                }
-
-                foreach (var ev in ticketmasterData.Embedded.Events)
-                {
-                    if (_context.Events.Any(e => e.ExternalEventId == ev.Id))
-                        continue;
-
-                    var venue = ev.Embedded?.Venues?.FirstOrDefault();
-
-                    var newEvent = new WebApplication1.Models.Event
-                    {
-                        ExternalEventId = ev.Id,
-                        TypeOfEvent = ev.Type,
-                        NameOfEvent = ev.Name,
-                        UrlOfEvent = ev.Url,
-                        PhotoUrl = ev.Images?.FirstOrDefault()?.Url,
-                        StartOfEvent = DateTime.TryParse(ev.Dates?.Start?.DateTime, out var eStart) ? eStart : DateTime.MinValue,
-                        Address = venue?.Address?.Line1,
-                        City = venue?.City?.Name,
-                        Country = venue?.Country?.Name,
-                        NameOfClub = venue?.Name,
-                    };
-
-                    _context.Events.Add(newEvent);
-                }
-
-                await _context.SaveChangesAsync();
-                Console.WriteLine($"Zapisano {ticketmasterData.Embedded.Events.Count} wydarzeń.");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Błąd podczas pobierania wydarzeń: {ex.Message}");
-            }
-        }
-
-
 
         [HttpGet("SearchRequiredEvent")]
         public async Task<IActionResult> SearchRequiredEvent(string city)
@@ -190,13 +111,9 @@ namespace WebApplication1.Controllers
                     _context.Events.Add(newEvent);
                 }
 
-
-
                 await _context.SaveChangesAsync();
 
-                // Teraz zwróć listę Event (nie EventObject!)
                 return View("Index", resultEvents);
-
             }
             catch (Exception ex)
             {
