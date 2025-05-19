@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<IdentityUser> SignInManager
+@inject IHttpContextAccessor HttpContextAccessor
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -31,6 +36,31 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Event" asp-action="Index">Event</a>
                         </li>
+                    </ul>
+                    <ul class="navbar-nav">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            var userr = await UserManager.GetUserAsync(User);
+                            <li class="nav-item navbar-expand-sm navbar-toggleable-sm align-content-center">
+                                <span class="navbar-text text-black">
+                                    Zalogowany jako: @userr?.Email
+                                </span>
+                            </li>
+                            <li class="nav-item">
+                                <form method="post" asp-area="Identity" asp-page="/Account/Logout">
+                                    <button type="submit" class="nav-link btn btn-link text-black">Wyloguj się</button>
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-black" asp-area="Identity" asp-page="/Account/Login">Zaloguj się</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-black" asp-area="Identity" asp-page="/Account/Register">Zarejestruj się</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>

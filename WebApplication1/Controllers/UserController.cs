@@ -43,7 +43,7 @@ namespace WebApplication1.Controllers
 
 
 
-        [HttpGet("Login")]
+        [HttpGet("oauth")]
         public IActionResult Login()
         {
             var redirectUrl = Url.Action("GoogleResponse", "User");
@@ -85,13 +85,6 @@ namespace WebApplication1.Controllers
 
             return RedirectToAction("Index", "User");
         }
-
-
-
-
-
-
-
 
 
         [HttpPost("create")]

@@ -66,12 +66,12 @@ namespace WebApplication1.Controllers
 
                 string baseUrl = "https://app.ticketmaster.com/discovery/v2/events.json";
                 var query = new Dictionary<string, string>
-        {
-            { "apikey", apiKey },
-            { "size", "20" },
-            { "city", city },
-            { "page", (pageNumber - 1).ToString() } // Ticketmaster uses 0-based indexing
-        };
+                {
+                    { "apikey", apiKey },
+                    { "size", "20" },
+                    { "city", city },
+                    { "page", (pageNumber - 1).ToString() } // Ticketmaster uses 0-based indexing
+                };
 
                 string url = QueryHelpers.AddQueryString(baseUrl, query);
                 HttpResponseMessage response = await _httpClient.GetAsync(url).ConfigureAwait(false);
