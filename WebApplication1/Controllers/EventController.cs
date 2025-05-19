@@ -52,6 +52,42 @@ namespace WebApplication1.Controllers
             return View("Index", paginatedEvents);
         }
 
+        [HttpGet("Details/{id}")]
+        public async Task<IActionResult> Details(int id)
+        {
+            var ev = await _context.Events.FindAsync(id);
+            if (ev == null)
+            {
+                return NotFound("Event nie został znaleziony.");
+            }
+
+            return View("Details", ev);
+        }
+
+        [HttpPost("BuyTicket")]
+        public async Task<IActionResult> BuyTicket(int id)
+        {
+            var ev = await _context.Events.FindAsync(id);
+            if (ev == null)
+                return NotFound();
+
+            // Tu można dodać logikę np. przekierowania do płatności
+            return Redirect(ev.UrlOfEvent ?? "/Event");
+        }
+
+        [HttpPost("SaveEvent")]
+        public async Task<IActionResult> SaveEvent(int id)
+        {
+            var ev = await _context.Events.FindAsync(id);
+            if (ev == null)
+                return NotFound();
+
+            // Tu można dodać logikę zapisywania eventu do profilu użytkownika
+            TempData["Message"] = $"Event \"{ev.NameOfEvent}\" został zapisany.";
+            return RedirectToAction("Details", new { id });
+        }
+
+
         [HttpGet("SearchRequiredEvent")]
         public async Task<IActionResult> SearchRequiredEvent(string city, int pageNumber = 1)
         {
@@ -93,7 +129,7 @@ namespace WebApplication1.Controllers
 
                 var existingEventIds = _context.Events
                     .AsNoTracking()
-                    .Select(e => e.ExternalEventId)
+                    .Select(e => e.NameOfEvent)
                     .ToHashSet();
 
                 var newEvents = externalEvents

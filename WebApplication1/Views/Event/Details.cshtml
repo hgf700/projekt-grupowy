@@ -1,0 +1,35 @@
+﻿@model WebApplication1.Models.Event
+
+@{
+    ViewData["Title"] = "Szczegóły Eventu";
+}
+
+<h2>@Model.NameOfEvent</h2>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <p><strong>Typ:</strong> @Model.TypeOfEvent</p>
+        <p><strong>Data:</strong> @Model.StartOfEvent.ToString("f")</p>
+        <p><strong>Adres:</strong> @Model.Address</p>
+        <p><strong>Miasto:</strong> @Model.City</p>
+        <p><strong>Kraj:</strong> @Model.Country</p>
+        <p><strong>Klub:</strong> @Model.NameOfClub</p>
+
+        @if (!string.IsNullOrWhiteSpace(Model.PhotoUrl))
+        {
+            <img src="@Model.PhotoUrl" alt="Zdjęcie eventu" class="img-fluid mb-3" />
+        }
+
+        <div class="d-flex gap-3">
+            <form asp-action="BuyTicket" method="post">
+                <input type="hidden" name="id" value="@Model.Id" />
+                <button type="submit" class="btn btn-success">Zakup bilet</button>
+            </form>
+
+            <form asp-action="SaveEvent" method="post">
+                <input type="hidden" name="id" value="@Model.Id" />
+                <button type="submit" class="btn btn-secondary">Zapisz event</button>
+            </form>
+        </div>
+    </div>
+</div>

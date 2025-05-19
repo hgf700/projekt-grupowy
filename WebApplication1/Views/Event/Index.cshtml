@@ -67,15 +67,9 @@
                 <td>@ev.StartOfEvent.ToString("g")</td>
                 <td>@Html.Encode(ev.Address)</td>
                 <td>
-                    @if (!string.IsNullOrWhiteSpace(ev.UrlOfEvent))
-                    {
-                        <a href="@ev.UrlOfEvent" class="btn btn-warning btn-sm" target="_blank" rel="noopener noreferrer">Url do eventu</a>
-                    }
-                    else
-                    {
-                        <span class="text-muted">Brak linku</span>
-                    }
+                    <a asp-controller="Event" asp-action="Details" asp-route-id="@ev.Id" class="btn btn-info btn-sm">Szczegóły</a>
                 </td>
+
             </tr>
         }
     </tbody>
