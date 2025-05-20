@@ -8,8 +8,11 @@ using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Identity;
 using WebApplication1.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using QuestPDF.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
+
+QuestPDF.Settings.License = LicenseType.Community;
 
 // Wczytaj zmienne �rodowiskowe z pliku .env (opcjonalnie, je�li u�ywasz DotNetEnv)
 DotNetEnv.Env.Load(); // <- odkomentuj je�li masz .env

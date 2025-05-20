@@ -7,6 +7,7 @@ using System.Text.Json;
 using WebApplication1.Areas.Identity.Data;
 using WebApplication1.Models;
 using WebApplication1.ProjectSERVICES;
+using QuestPDF.Fluent;
 
 namespace WebApplication1.Controllers
 {
@@ -129,6 +130,15 @@ namespace WebApplication1.Controllers
             {
                 _smsservice.SendSMS(ev.UrlOfEvent);
             }
+
+            var doc = new InvoiceDocument(
+                eventName: $"{ev.NameOfEvent}",
+                eventDate: $"{ev.StartOfEvent}"
+            );
+
+            string resourcesPath = Path.Combine(Directory.GetCurrentDirectory(), "Resources");
+            string pdfPath = Path.Combine(resourcesPath, "bilet.pdf");
+            doc.GeneratePdf(pdfPath);
 
             string docelowyemail = Environment.GetEnvironmentVariable("TARGET_EMAIL");
 
