@@ -21,10 +21,11 @@
         }
 
         <div class="d-flex gap-3">
-            <form asp-action="BuyTicket" method="post">
-                <input type="hidden" name="id" value="@Model.Id" />
-                <button type="submit" class="btn btn-success">Zakup bilet</button>
+
+            <form asp-controller="Event" asp-action="BuyTicket" asp-route-id="@Model.Id" method="post">
+                <button type="submit" class="btn btn-success">Kup bilet</button>
             </form>
+
 
             <form asp-action="SaveEvent" method="post">
                 <input type="hidden" name="id" value="@Model.Id" />

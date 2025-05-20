@@ -19,7 +19,7 @@ namespace WebApplication1.ProjectSERVICES
                 TwilioClient.Init(twilio_sid, twilio_token);
 
                 var message = MessageResource.Create(
-                    body: $"To jest testowa wiadomość SMS z Twilio link {url}",
+                    body: $"Zapisałeś się na event {url}",
                     from: new Twilio.Types.PhoneNumber($"{twilio_number}"),
                     to: new Twilio.Types.PhoneNumber($"{sms_receiver}")
                 );

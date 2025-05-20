@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
+using Stripe.Checkout;
+using Stripe;
 using System.Text.Json;
 using WebApplication1.Areas.Identity.Data;
 using WebApplication1.Models;
+using WebApplication1.ProjectSERVICES;
 
 namespace WebApplication1.Controllers
 {
@@ -12,17 +15,24 @@ namespace WebApplication1.Controllers
     {
         private readonly HttpClient _httpClient;
         private readonly ApplicationDbContext _context;
+        string YOUR_DOMAIN = "https://localhost:7022";
+        private readonly QrService _qrService;
+        private readonly SmsService _smsservice;
+        private readonly EmailService _emailService;
 
-        public EventController(HttpClient httpClient, ApplicationDbContext context)
+        public EventController(HttpClient httpClient, ApplicationDbContext context, QrService qrService, SmsService smsservice, EmailService emailService)
         {
             _httpClient = httpClient;
             _context = context;
+            _qrService = qrService;
+            _smsservice = smsservice;
+            _emailService = emailService;
         }
 
         [HttpGet("")]
         public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 20, string city = null)
         {
-            IQueryable<Event> query = _context.Events;
+            IQueryable<Models.Event> query = _context.Events;
 
             //await FetchAndSaveEvents();
 
@@ -64,35 +74,88 @@ namespace WebApplication1.Controllers
             return View("Details", ev);
         }
 
-        [HttpPost("BuyTicket")]
+        [HttpPost("BuyTicket/{id}")]
         public async Task<IActionResult> BuyTicket(int id)
         {
             var ev = await _context.Events.FindAsync(id);
             if (ev == null)
                 return NotFound();
 
-            // Tu można dodać logikę np. przekierowania do płatności
-            return Redirect(ev.UrlOfEvent ?? "/Event");
+            StripeConfiguration.ApiKey = Environment.GetEnvironmentVariable("STRIP_SEC_KEY");
+
+            var options = new SessionCreateOptions
+            {
+                LineItems = new List<SessionLineItemOptions>
+                {
+                    new SessionLineItemOptions
+                    {
+                        PriceData = new SessionLineItemPriceDataOptions
+                        {
+                            Currency = "pln",
+                            UnitAmount = 1000, 
+                            ProductData = new SessionLineItemPriceDataProductDataOptions
+                            {
+                                Name = "Bilet na wydarzenie",
+                            },
+                        },
+                        Quantity = 1,
+                    },
+
+                },
+
+                Mode = "payment",
+                SuccessUrl = $"{YOUR_DOMAIN}/Event/PaymentSuccess?id={id}",
+                CancelUrl = $"{YOUR_DOMAIN}/Event/PaymentFailed",
+            };
+            var service = new SessionService();
+            Session session = service.Create(options);
+
+            return Redirect(session.Url); // przekierowuje do strony Stripe Checkout
+
         }
 
-        [HttpPost("SaveEvent")]
-        public async Task<IActionResult> SaveEvent(int id)
+        [HttpGet("PaymentSuccess")]
+        public async Task<IActionResult> PaymentSuccess([FromQuery] int id)
         {
             var ev = await _context.Events.FindAsync(id);
             if (ev == null)
                 return NotFound();
 
-            // Tu można dodać logikę zapisywania eventu do profilu użytkownika
-            TempData["Message"] = $"Event \"{ev.NameOfEvent}\" został zapisany.";
-            return RedirectToAction("Details", new { id });
+            _qrService.GenerateQrCode(ev.UrlOfEvent);
+
+            bool.TryParse(Environment.GetEnvironmentVariable("TWILIO_SMS_SEND_STATE"), out bool twilio_sms_state);
+
+            if (twilio_sms_state == true)
+            {
+                _smsservice.SendSMS(ev.UrlOfEvent);
+            }
+
+            string docelowyemail = Environment.GetEnvironmentVariable("TARGET_EMAIL");
+
+            _emailService.SendEmail(docelowyemail,ev.UrlOfEvent);
+
+            ViewBag.Message = "Płatność zakończona sukcesem!";
+            return View("Success");
         }
+
+
+        [HttpGet("PaymentFailed")]
+        public IActionResult PaymentFailed()
+        {
+            // Logika po nieudanej płatności
+            ViewBag.Message = "Płatność nie powiodła się. Spróbuj ponownie.";
+            return View("Failed"); // Zwróć widok "Failed.cshtml"
+        }
+
 
 
         [HttpGet("SearchRequiredEvent")]
         public async Task<IActionResult> SearchRequiredEvent(string city, int pageNumber = 1)
         {
+
             if (string.IsNullOrWhiteSpace(city))
                 return BadRequest("Miasto jest wymagane.");
+
 
             try
             {
@@ -173,7 +236,17 @@ namespace WebApplication1.Controllers
             }
         }
 
+                [HttpPost("SaveEvent")]
+        public async Task<IActionResult> SaveEvent(int id)
+        {
+            var ev = await _context.Events.FindAsync(id);
+            if (ev == null)
+                return NotFound();
 
+            // Tu można dodać logikę zapisywania eventu do profilu użytkownika
+            TempData["Message"] = $"Event \"{ev.NameOfEvent}\" został zapisany.";
+            return RedirectToAction("Details", new { id });
+        }
 
     }
 }

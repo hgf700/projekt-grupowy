@@ -1,12 +1,13 @@
 ﻿using System.Net;
 using System.Net.Mail;
 using System.Net.Mime;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace WebApplication1.ProjectSERVICES
 {
     public class EmailService
     {
-        public void SendEmail(string toEmail, string subject, string body)
+        public void SendEmail(string toEmail,string url)
         {
             // Mailtrap SMTP dane z ENV
             string smtpUser = Environment.GetEnvironmentVariable("MAILTRAP_SENDER_USER");
@@ -15,26 +16,42 @@ namespace WebApplication1.ProjectSERVICES
             {
                 throw new Exception("Brakuje zmiennych środowiskowych: MAILTRAP_USER lub MAILTRAP_PASS");
             }
-
             
             var fromAddress = new MailAddress("test@example.com", "Mailtrap Test", System.Text.Encoding.UTF8);
             var toAddress = new MailAddress(toEmail);
 
-            
+            //string body= $@"
+            //    <html>
+            //      <body style='background-color:#f0f0f0; padding:20px; font-family:Arial;'>
+            //        <h2 style='color:#333;'>Wiadomość testowa</h2>
+            //        <p>To jest testowy email z grafiką.</p>
+            //        <p>url do eventu</p>
+            //        <p><a href='{url}'>{url}</a></p>
+            //        <img src='cid:testImage' alt='test'>
+            //        <img src='cid:QRimage' alt='QR'>
+            //      </body>
+            //    </html>";
+
+            string body = string.Format(@"
+            <html>
+              <body style='background-color:#f0f0f0; padding:20px; font-family:Arial;'>
+                <h2 style='color:#333;'>Wiadomość testowa</h2>
+                <p>To jest testowy email z grafiką.</p>
+                <p>URL do wydarzenia:</p>
+                <p><a href='{0}'>{0}</a></p>
+                <img src='cid:testImage' alt='test'>
+                <img src='cid:QRimage' alt='QR'>
+              </body>
+            </html>", url);
+
             var plainView = AlternateView.CreateAlternateViewFromString("To jest tekstowa wersja wiadomości", null, "text/plain");
             AlternateView htmlView = AlternateView.CreateAlternateViewFromString(body, null, MediaTypeNames.Text.Html);
-
             
             MailAddress bcc = new MailAddress("manager1@contoso.com");
             MailAddress copy = new MailAddress("Notification_List@contoso.com");
 
             string dir = Path.Combine(Directory.GetCurrentDirectory(), "Resources");
             Directory.SetCurrentDirectory(dir);
-
-            //string dir = @"..\WebApplication1\Resources";
-
-            //string dir = Path.Combine(Directory.GetCurrentDirectory(), "Resources");
-            //string fullPath = Path.Combine(dir);
 
             string file = "cos.txt";
             // Create  the file attachment for this email message.
@@ -45,7 +62,6 @@ namespace WebApplication1.ProjectSERVICES
             disposition.CreationDate = System.IO.File.GetCreationTime(file);
             disposition.ModificationDate = System.IO.File.GetLastWriteTime(file);
             disposition.ReadDate = System.IO.File.GetLastAccessTime(file);
-
 
             string imagePath = Path.Combine("test.jpg");
             LinkedResource image = new LinkedResource(imagePath, MediaTypeNames.Image.Jpeg);
@@ -64,7 +80,7 @@ namespace WebApplication1.ProjectSERVICES
 
             using (var message = new MailMessage(fromAddress, toAddress)
             {
-                Subject = subject,
+                Subject = "Testowy temat",
                 //Body = body, podwyzsza spam
                 SubjectEncoding = System.Text.Encoding.UTF8,
                 BodyEncoding = System.Text.Encoding.UTF8,
@@ -90,7 +106,7 @@ namespace WebApplication1.ProjectSERVICES
                         EnableSsl = true,
                         DeliveryMethod = SmtpDeliveryMethod.Network,
                         Credentials = new NetworkCredential(smtpUser, smtpPass),
-                        Timeout = 20000
+                        //Timeout = 20000
                     };
 
                     smtp.Send(message);
