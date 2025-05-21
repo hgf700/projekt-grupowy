@@ -137,7 +137,8 @@ namespace WebApplication1.Controllers
             var doc = new InvoiceDocument(
                 eventName: $"{ev.NameOfEvent}",
                 eventDate: $"{ev.StartOfEvent}",
-                eventAddress: $"{ev.Address}"
+                eventAddress: $"{ev.Address}",
+                eventType: $"{ev.TypeOfEvent}"
             );
 
             string resourcesPath = Path.Combine(Directory.GetCurrentDirectory(), "Resources");
@@ -160,8 +161,6 @@ namespace WebApplication1.Controllers
             ViewBag.Message = "Płatność nie powiodła się. Spróbuj ponownie.";
             return View("Failed"); // Zwróć widok "Failed.cshtml"
         }
-
-
 
         [HttpGet("SearchRequiredEvent")]
         public async Task<IActionResult> SearchRequiredEvent(string city, int pageNumber = 1)

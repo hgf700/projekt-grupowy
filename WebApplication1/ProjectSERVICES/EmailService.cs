@@ -20,29 +20,17 @@ namespace WebApplication1.ProjectSERVICES
             var fromAddress = new MailAddress("test@example.com", "Mailtrap Test", System.Text.Encoding.UTF8);
             var toAddress = new MailAddress(toEmail);
 
-            //string body= $@"
-            //    <html>
-            //      <body style='background-color:#f0f0f0; padding:20px; font-family:Arial;'>
-            //        <h2 style='color:#333;'>Wiadomość testowa</h2>
-            //        <p>To jest testowy email z grafiką.</p>
-            //        <p>url do eventu</p>
-            //        <p><a href='{url}'>{url}</a></p>
-            //        <img src='cid:testImage' alt='test'>
-            //        <img src='cid:QRimage' alt='QR'>
-            //      </body>
-            //    </html>";
-
-            string body = string.Format(@"
-            <html>
-              <body style='background-color:#f0f0f0; padding:20px; font-family:Arial;'>
-                <h2 style='color:#333;'>Wiadomość testowa</h2>
-                <p>To jest testowy email z grafiką.</p>
-                <p>URL do wydarzenia:</p>
-                <p><a href='{0}'>{0}</a></p>
-                <img src='cid:testImage' alt='test'>
-                <img src='cid:QRimage' alt='QR'>
-              </body>
-            </html>", url);
+            string body = $@"
+                <html>
+                  <body style='background-color:#f0f0f0; padding:20px; font-family:Arial;'>
+                    <h2 style='color:#333;'>Wiadomość testowa</h2>
+                    <p>To jest testowy email z grafiką.</p>
+                    <p>url do eventu</p>
+                    <p><a href='{url}'>{url}</a></p>
+                    <img src='cid:testImage' alt='test'>
+                    <img src='cid:QRimage' alt='QR'>
+                  </body>
+                </html>";
 
             var plainView = AlternateView.CreateAlternateViewFromString("To jest tekstowa wersja wiadomości", null, "text/plain");
             AlternateView htmlView = AlternateView.CreateAlternateViewFromString(body, null, MediaTypeNames.Text.Html);
@@ -66,7 +54,7 @@ namespace WebApplication1.ProjectSERVICES
             string imagePath = Path.Combine("test.jpg");
             LinkedResource image = new LinkedResource(imagePath, MediaTypeNames.Image.Jpeg);
 
-            string pngPath = Path.Combine("QR.png");
+            string pngPath = Path.Combine("QR.PNG");
             LinkedResource pngimage = new LinkedResource(pngPath, MediaTypeNames.Image.Png);
 
             image.ContentId = "testImage"; // ID dla cid

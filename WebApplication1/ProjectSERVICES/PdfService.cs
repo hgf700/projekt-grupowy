@@ -11,12 +11,14 @@ namespace WebApplication1.ProjectSERVICES
         public string EventName { get; set; }
         public string EventDate { get; set; }
         public string EventAddress { get; set; }
+        public string EventType { get; set; }
 
-        public InvoiceDocument(string eventName, string eventDate, string eventAddress)
+        public InvoiceDocument(string eventName, string eventDate, string eventAddress, string eventType)
         {
             EventName = eventName;
             EventDate = eventDate;
             EventAddress = eventAddress;
+            EventType = eventType;
         }
 
         public DocumentSettings GetSettings() => DocumentSettings.Default;
@@ -31,7 +33,6 @@ namespace WebApplication1.ProjectSERVICES
 
                     page.Header().Element(ComposeHeader);
                     page.Content().Element(ComposeContent);
-                    //page.Footer().Element(ComposeFooter);
                 });
         }
 
@@ -67,6 +68,9 @@ namespace WebApplication1.ProjectSERVICES
                 col.Item().Text($"Data wydarzenia: {EventDate}")
                     .FontSize(14);
 
+                col.Item().Text($"Typ wydarzenia: {EventType}")
+                    .FontSize(14);
+
                 // Dodaj kod QR z pliku
                 string qrPath = Path.Combine(Directory.GetCurrentDirectory(), "Resources", "QR.PNG");
 
@@ -94,14 +98,5 @@ namespace WebApplication1.ProjectSERVICES
 
             });
         }
-
-        //void ComposeFooter(IContainer container)
-        //{
-        //    container.AlignCenter().Text(x =>
-        //    {
-        //        x.Span("Strona ");
-        //        x.CurrentPageNumber();
-        //    });
-        //}
     }
 }

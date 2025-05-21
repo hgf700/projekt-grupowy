@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QuestPDF.Fluent;
+using Stripe;
 using WebApplication1.Areas.Identity.Data;
 using WebApplication1.ProjectSERVICES;
 
@@ -37,7 +38,8 @@ namespace WebApplication1.Controllers
                 var doc = new InvoiceDocument(
                     eventName: $"{ev.NameOfEvent}",
                     eventDate: $"{ev.StartOfEvent}",
-                    eventAddress: $"{ev.Address}"
+                    eventAddress: $"{ev.Address}",
+                    eventType : $"{ev.TypeOfEvent}"
                 );
 
                 string resourcesPath = Path.Combine(Directory.GetCurrentDirectory(), "Resources");
