@@ -10,11 +10,13 @@ namespace WebApplication1.ProjectSERVICES
     {
         public string EventName { get; set; }
         public string EventDate { get; set; }
+        public string EventAddress { get; set; }
 
-        public InvoiceDocument(string eventName, string eventDate)
+        public InvoiceDocument(string eventName, string eventDate, string eventAddress)
         {
             EventName = eventName;
             EventDate = eventDate;
+            EventAddress = eventAddress;
         }
 
         public DocumentSettings GetSettings() => DocumentSettings.Default;
@@ -29,7 +31,7 @@ namespace WebApplication1.ProjectSERVICES
 
                     page.Header().Element(ComposeHeader);
                     page.Content().Element(ComposeContent);
-                    page.Footer().Element(ComposeFooter);
+                    //page.Footer().Element(ComposeFooter);
                 });
         }
 
@@ -43,10 +45,6 @@ namespace WebApplication1.ProjectSERVICES
                         .FontSize(20)
                         .SemiBold()
                         .FontColor(Colors.Blue.Darken2);
-
-                    col.Item().Text($"Data: {EventDate}")
-                        .FontSize(12)
-                        .FontColor(Colors.Grey.Darken1);
                 });
 
                 // Można tu wstawić logo z Resources, jeśli chcesz
@@ -63,7 +61,10 @@ namespace WebApplication1.ProjectSERVICES
                 col.Item().Text($"Wydarzenie: {EventName}")
                     .FontSize(14);
 
-                col.Item().Text($"Data wydarzenia: {EventDate:dd.MM.yyyy HH:mm}")
+                col.Item().Text($"Address: {EventAddress}")
+                    .FontSize(14);
+
+                col.Item().Text($"Data wydarzenia: {EventDate}")
                     .FontSize(14);
 
                 // Dodaj kod QR z pliku
@@ -72,9 +73,19 @@ namespace WebApplication1.ProjectSERVICES
                 if (File.Exists(qrPath))
                 {
                     var qrBytes = File.ReadAllBytes(qrPath);
-                    col.Item().Image(qrBytes)
-                        .FitArea();
+
+                    col.Item().PaddingTop(200).Row(row =>
+                    {
+
+
+                        row.RelativeItem(); // lewa pusta przestrzeń
+
+                        row.ConstantItem(300).Height(300).Image(qrBytes).FitArea();
+
+                        row.RelativeItem(); // prawa pusta przestrzeń
+                    });
                 }
+
                 else
                 {
                     col.Item().Text("Kod QR nie został znaleziony.")
@@ -84,15 +95,13 @@ namespace WebApplication1.ProjectSERVICES
             });
         }
 
-        void ComposeFooter(IContainer container)
-        {
-            container.AlignCenter().Text(x =>
-            {
-                x.Span("Strona ");
-                x.CurrentPageNumber();
-                x.Span(" z ");
-                x.TotalPages();
-            });
-        }
+        //void ComposeFooter(IContainer container)
+        //{
+        //    container.AlignCenter().Text(x =>
+        //    {
+        //        x.Span("Strona ");
+        //        x.CurrentPageNumber();
+        //    });
+        //}
     }
 }

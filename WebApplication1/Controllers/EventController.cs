@@ -30,6 +30,9 @@ namespace WebApplication1.Controllers
             _emailService = emailService;
         }
 
+
+
+
         [HttpGet("")]
         public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 20, string city = null)
         {
@@ -133,7 +136,8 @@ namespace WebApplication1.Controllers
 
             var doc = new InvoiceDocument(
                 eventName: $"{ev.NameOfEvent}",
-                eventDate: $"{ev.StartOfEvent}"
+                eventDate: $"{ev.StartOfEvent}",
+                eventAddress: $"{ev.Address}"
             );
 
             string resourcesPath = Path.Combine(Directory.GetCurrentDirectory(), "Resources");

@@ -53,7 +53,7 @@ namespace WebApplication1.ProjectSERVICES
             string dir = Path.Combine(Directory.GetCurrentDirectory(), "Resources");
             Directory.SetCurrentDirectory(dir);
 
-            string file = "cos.txt";
+            string file = "bilet.pdf";
             // Create  the file attachment for this email message.
             Attachment data = new Attachment(file, MediaTypeNames.Text.Plain);
             data.TransferEncoding = TransferEncoding.Base64;
