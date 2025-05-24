@@ -3,32 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|c:\\users\\user098\\documents\\github\\projekt-grupowy\\webapplication1\\areas\\identity\\pages\\account\\register.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\areas\\identity\\pages\\account\\register.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|c:\\users\\user098\\documents\\github\\projekt-grupowy\\webapplication1\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|c:\\users\\user098\\documents\\github\\projekt-grupowy\\webapplication1\\extratools\\nullemailsender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\extratools\\nullemailsender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|c:\\users\\user098\\documents\\github\\projekt-grupowy\\webapplication1\\models\\identity\\registermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\models\\identity\\registermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|c:\\users\\user098\\documents\\github\\projekt-grupowy\\webapplication1\\resources\\cos.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\resources\\cos.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|c:\\users\\user098\\documents\\github\\projekt-grupowy\\webapplication1\\models\\identity\\accountservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\models\\identity\\accountservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|c:\\users\\user098\\documents\\github\\projekt-grupowy\\webapplication1\\resources\\docs.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\resources\\docs.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|c:\\users\\user098\\documents\\github\\projekt-grupowy\\webapplication1\\resources\\dozrobienia.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\resources\\dozrobienia.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|c:\\users\\user098\\documents\\github\\projekt-grupowy\\webapplication1\\areas\\identity\\pages\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\areas\\identity\\pages\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|c:\\users\\user098\\documents\\github\\projekt-grupowy\\webapplication1\\areas\\identity\\pages\\account\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\areas\\identity\\pages\\account\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|c:\\users\\user098\\documents\\github\\projekt-grupowy\\webapplication1\\models\\identity\\applicationuser .cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|solutionrelative:webapplication1\\models\\identity\\applicationuser .cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6B15988B-726E-4E80-BC36-E809E4CC6F41}|WebApplication1\\WebApplication1.csproj|c:\\users\\user098\\documents\\github\\projekt-grupowy\\webapplication1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -42,61 +30,74 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Register.cshtml",
-              "DocumentMoniker": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\Areas\\Identity\\Pages\\Account\\Register.cshtml",
-              "RelativeDocumentMoniker": "WebApplication1\\Areas\\Identity\\Pages\\Account\\Register.cshtml",
-              "ToolTip": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\Areas\\Identity\\Pages\\Account\\Register.cshtml",
-              "RelativeToolTip": "WebApplication1\\Areas\\Identity\\Pages\\Account\\Register.cshtml",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAQwDcAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-05-21T18:24:31.923Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Login.cshtml",
-              "DocumentMoniker": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\Areas\\Identity\\Pages\\Account\\Login.cshtml",
-              "RelativeDocumentMoniker": "WebApplication1\\Areas\\Identity\\Pages\\Account\\Login.cshtml",
-              "ToolTip": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\Areas\\Identity\\Pages\\Account\\Login.cshtml",
-              "RelativeToolTip": "WebApplication1\\Areas\\Identity\\Pages\\Account\\Login.cshtml",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-05-21T18:26:21.119Z",
-              "IsPinned": true,
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Register.cshtml.cs",
-              "DocumentMoniker": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\Areas\\Identity\\Pages\\Account\\Register.cshtml.cs",
-              "RelativeDocumentMoniker": "WebApplication1\\Areas\\Identity\\Pages\\Account\\Register.cshtml.cs",
-              "ToolTip": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\Areas\\Identity\\Pages\\Account\\Register.cshtml.cs",
-              "RelativeToolTip": "WebApplication1\\Areas\\Identity\\Pages\\Account\\Register.cshtml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAKcAAAANAAAAAAAAAA==",
+              "DocumentIndex": 4,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\Program.cs",
+              "RelativeDocumentMoniker": "WebApplication1\\Program.cs",
+              "ToolTip": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\Program.cs",
+              "RelativeToolTip": "WebApplication1\\Program.cs",
+              "ViewState": "AgIAAIoAAAAAAAAAAAAQwLYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-21T18:41:13.944Z",
+              "WhenOpened": "2025-05-21T18:18:47.247Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ApplicationUser .cs",
+              "DocumentMoniker": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\Models\\Identity\\ApplicationUser .cs",
+              "RelativeDocumentMoniker": "WebApplication1\\Models\\Identity\\ApplicationUser .cs",
+              "ToolTip": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\Models\\Identity\\ApplicationUser .cs",
+              "RelativeToolTip": "WebApplication1\\Models\\Identity\\ApplicationUser .cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-21T18:56:37.482Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AccountService.cs",
+              "DocumentMoniker": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\Models\\Identity\\AccountService.cs",
+              "RelativeDocumentMoniker": "WebApplication1\\Models\\Identity\\AccountService.cs",
+              "ToolTip": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\Models\\Identity\\AccountService.cs",
+              "RelativeToolTip": "WebApplication1\\Models\\Identity\\AccountService.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAAD0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-21T18:51:31.727Z",
               "IsPinned": true,
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "NullEmailSender.cs",
-              "DocumentMoniker": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\ExtraTools\\NullEmailSender.cs",
-              "RelativeDocumentMoniker": "WebApplication1\\ExtraTools\\NullEmailSender.cs",
-              "ToolTip": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\ExtraTools\\NullEmailSender.cs*",
-              "RelativeToolTip": "WebApplication1\\ExtraTools\\NullEmailSender.cs*",
+              "Title": "RegisterModel.cs",
+              "DocumentMoniker": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\Models\\Identity\\RegisterModel.cs",
+              "RelativeDocumentMoniker": "WebApplication1\\Models\\Identity\\RegisterModel.cs",
+              "ToolTip": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\Models\\Identity\\RegisterModel.cs",
+              "RelativeToolTip": "WebApplication1\\Models\\Identity\\RegisterModel.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-21T18:30:18.846Z",
+              "WhenOpened": "2025-05-21T18:46:17.709Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\Models\\User.cs",
+              "RelativeDocumentMoniker": "WebApplication1\\Models\\User.cs",
+              "ToolTip": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\Models\\User.cs",
+              "RelativeToolTip": "WebApplication1\\Models\\User.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-21T18:45:24.67Z",
               "EditorCaption": ""
             },
             {
@@ -110,58 +111,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:6:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "dozrobienia.txt",
-              "DocumentMoniker": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\Resources\\dozrobienia.txt",
-              "RelativeDocumentMoniker": "WebApplication1\\Resources\\dozrobienia.txt",
-              "ToolTip": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\Resources\\dozrobienia.txt",
-              "RelativeToolTip": "WebApplication1\\Resources\\dozrobienia.txt",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
-              "WhenOpened": "2025-05-21T18:22:58.556Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "docs.txt",
-              "DocumentMoniker": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\Resources\\docs.txt",
-              "RelativeDocumentMoniker": "WebApplication1\\Resources\\docs.txt",
-              "ToolTip": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\Resources\\docs.txt",
-              "RelativeToolTip": "WebApplication1\\Resources\\docs.txt",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
-              "WhenOpened": "2025-05-21T18:22:57.16Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "cos.txt",
-              "DocumentMoniker": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\Resources\\cos.txt",
-              "RelativeDocumentMoniker": "WebApplication1\\Resources\\cos.txt",
-              "ToolTip": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\Resources\\cos.txt",
-              "RelativeToolTip": "WebApplication1\\Resources\\cos.txt",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
-              "WhenOpened": "2025-05-21T18:22:54.23Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\Program.cs",
-              "RelativeDocumentMoniker": "WebApplication1\\Program.cs",
-              "ToolTip": "C:\\Users\\USER098\\Documents\\GitHub\\projekt-grupowy\\WebApplication1\\Program.cs",
-              "RelativeToolTip": "WebApplication1\\Program.cs",
-              "ViewState": "AgIAAE8AAAAAAAAAAAAAAIIAAABJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-21T18:18:47.247Z",
-              "EditorCaption": ""
             }
           ]
         }
