@@ -13,7 +13,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
     }
 
-    public DbSet<User> Users { get; set; }
+    public DbSet<ApplicationUser> Users { get; set; }
     public DbSet<Event> Events { get; set; }
     public DbSet<UserEvent> UserEvents { get; set; }
 
@@ -22,7 +22,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<UserEvent>()
-            .HasKey(ue => new { ue.UserId, ue.EventId }); // klucz z³o¿ony
+            .HasKey(ue => new { ue.UserId, ue.EventId });
 
         modelBuilder.Entity<UserEvent>()
             .HasOne(ue => ue.User)
@@ -33,5 +33,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
             .HasOne(ue => ue.Event)
             .WithMany(e => e.UserEvents)
             .HasForeignKey(ue => ue.EventId);
+
     }
 }

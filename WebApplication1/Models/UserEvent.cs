@@ -1,9 +1,11 @@
-﻿namespace WebApplication1.Models
+﻿using WebApplication1.Models.Identity;
+
+namespace WebApplication1.Models
 {
     public class UserEvent
     {
-        public int UserId { get; set; }
-        public User User { get; set; }
+        public string UserId { get; set; }
+        public ApplicationUser User { get; set; }
 
         public int EventId { get; set; }
         public Event Event { get; set; }

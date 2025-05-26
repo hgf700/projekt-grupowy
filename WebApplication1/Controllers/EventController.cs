@@ -8,12 +8,16 @@ using WebApplication1.Areas.Identity.Data;
 using WebApplication1.Models;
 using WebApplication1.ProjectSERVICES;
 using QuestPDF.Fluent;
+using Microsoft.AspNetCore.Identity;
+using WebApplication1.Models.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApplication1.Controllers
 {
     [Route("Event")]
     public class EventController : Controller
     {
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly HttpClient _httpClient;
         private readonly ApplicationDbContext _context;
         string YOUR_DOMAIN = "https://localhost:7022";
@@ -21,17 +25,15 @@ namespace WebApplication1.Controllers
         private readonly SmsService _smsservice;
         private readonly EmailService _emailService;
 
-        public EventController(HttpClient httpClient, ApplicationDbContext context, QrService qrService, SmsService smsservice, EmailService emailService)
+        public EventController(HttpClient httpClient, ApplicationDbContext context, QrService qrService, SmsService smsservice, EmailService emailService, UserManager<ApplicationUser> userManager)
         {
             _httpClient = httpClient;
             _context = context;
             _qrService = qrService;
             _smsservice = smsservice;
             _emailService = emailService;
+            _userManager = userManager;
         }
-
-
-
 
         [HttpGet("")]
         public async Task<IActionResult> Index(int pageNumber = 1, int pageSize = 20, string city = null)
@@ -125,6 +127,20 @@ namespace WebApplication1.Controllers
             if (ev == null)
                 return NotFound();
 
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+
+                return Unauthorized();
+
+            var userEvent = new UserEvent
+            {
+                EventId = ev.Id,
+                UserId = user.Id
+            };
+
+            _context.UserEvents.Add(userEvent);
+            await _context.SaveChangesAsync();
+
             _qrService.GenerateQrCode(ev.UrlOfEvent);
 
             bool.TryParse(Environment.GetEnvironmentVariable("TWILIO_SMS_SEND_STATE"), out bool twilio_sms_state);
@@ -141,6 +157,8 @@ namespace WebApplication1.Controllers
                 eventType: $"{ev.TypeOfEvent}"
             );
 
+
+
             string resourcesPath = Path.Combine(Directory.GetCurrentDirectory(), "Resources");
             string pdfPath = Path.Combine(resourcesPath, "bilet.pdf");
             doc.GeneratePdf(pdfPath);
@@ -148,6 +166,8 @@ namespace WebApplication1.Controllers
             string docelowyemail = Environment.GetEnvironmentVariable("TARGET_EMAIL");
 
             _emailService.SendEmail(docelowyemail,ev.UrlOfEvent);
+
+
 
             ViewBag.Message = "Płatność zakończona sukcesem!";
             return View("Success");
@@ -260,7 +280,5 @@ namespace WebApplication1.Controllers
             TempData["Message"] = $"Event \"{ev.NameOfEvent}\" został zapisany.";
             return RedirectToAction("Details", new { id });
         }
-
     }
 }
-
