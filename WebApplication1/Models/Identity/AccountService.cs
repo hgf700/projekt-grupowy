@@ -55,7 +55,5 @@ namespace WebApplication1.Models.Identity
             await _signInManager.SignInAsync(user, isPersistent: false);
             _logger.LogInformation("Użytkownik zarejestrowany pomyślnie.");
         }
-
     }
-
 }

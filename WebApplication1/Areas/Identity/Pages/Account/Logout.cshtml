@@ -1,21 +1,26 @@
 ﻿@page
-@model LogoutModel
+@model WebApplication1.Areas.Identity.Pages.Account.LogoutModel
 @{
-    ViewData["Title"] = "Log out";
+    ViewData["Title"] = "Wylogowanie";
 }
 
 <header>
     <h1>@ViewData["Title"]</h1>
-    @{
-        if (User.Identity?.IsAuthenticated ?? false)
-        {
-            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
-                <button type="submit" class="nav-link btn btn-link text-dark">Click here to Logout</button>
-            </form>
-        }
-        else
-        {
-            <p>You have successfully logged out of the application.</p>
-        }
+
+    @if (User.Identity?.IsAuthenticated ?? false)
+    {
+        <form asp-area="Identity"
+              asp-page="/Account/Logout"
+              asp-route-returnUrl="@Url.Page("/", new { area = "" })"
+              method="post"
+              class="form-inline">
+            <button type="submit" class="btn btn-link text-danger">Kliknij tutaj, aby się wylogować</button>
+        </form>
+    }
+    else
+    {
+        <p>Zostałeś pomyślnie wylogowany z aplikacji.</p>
+        <a class="btn btn-primary" asp-page="/Account/Login">Zaloguj się ponownie</a>
+        <a class="btn btn-primary" asp-page="/Account/Register">Zarejestruj się</a>
     }
 </header>

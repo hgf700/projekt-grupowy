@@ -8,6 +8,6 @@ namespace WebApplication1.Models.Identity
         public string? GoogleId { get; set; }
 
         // Jeśli potrzebujesz relacji:
-        public ICollection<UserEvent> UserEvents { get; set; }
+        public ICollection<UserEvent> UserEvents { get; set; } = new List<UserEvent>();
     }
 }

@@ -12,3 +12,4 @@ namespace WebApplication1.Models
         public ICollection<UserEvent> UserEvents { get; set; }
     }
 }
+    

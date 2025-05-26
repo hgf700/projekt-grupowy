@@ -1,4 +1,5 @@
 ﻿@model WebApplication1.Models.Event
+@using Microsoft.AspNetCore.Identity
 
 @{
     ViewData["Title"] = "Szczegóły Eventu";
@@ -22,15 +23,24 @@
 
         <div class="d-flex gap-3">
 
-            <form asp-controller="Event" asp-action="BuyTicket" asp-route-id="@Model.Id" method="post">
-                <button type="submit" class="btn btn-success">Kup bilet</button>
-            </form>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <form asp-controller="Event" asp-action="BuyTicket" asp-route-id="@Model.Id" method="post">
+                    <button type="submit" class="btn btn-success">Kup bilet</button>
+                </form>
+                <form asp-action="SaveEvent" method="post">
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    <button type="submit" class="btn btn-secondary">Zapisz event</button>
+                </form>
+            }else{
+                <p>By kupić bilet lub zapisać event, trzeba być zalogowanym</p>
 
+                <div class="d-flex gap-2">
+                    <a class="btn btn-primary" asp-area="Identity" asp-page="/Account/Login">Zaloguj się</a>
+                    <a class="btn btn-outline-primary" asp-area="Identity" asp-page="/Account/Register">Zarejestruj się</a>
+                </div>
+            }
 
-            <form asp-action="SaveEvent" method="post">
-                <input type="hidden" name="id" value="@Model.Id" />
-                <button type="submit" class="btn btn-secondary">Zapisz event</button>
-            </form>
         </div>
     </div>
 </div>
