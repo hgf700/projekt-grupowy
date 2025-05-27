@@ -18,6 +18,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using WebApplication1.Models.Identity;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 
 namespace WebApplication1.Areas.Identity.Pages.Account
 {
@@ -158,6 +160,13 @@ namespace WebApplication1.Areas.Identity.Pages.Account
                                 return RedirectToPage("./RegisterConfirmation", new { Email = Input.Email });
                             }
 
+                            var authResult = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+                            var accessToken = authResult.Properties.GetTokenValue("access_token");
+                            var refreshToken = authResult.Properties.GetTokenValue("refresh_token");
+                            var expiresAt = authResult.Properties.GetTokenValue("expires_at");
+
+                            var client = new HttpClient();
 
                             await _signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);
 
@@ -172,6 +181,8 @@ namespace WebApplication1.Areas.Identity.Pages.Account
                                 ModelState.AddModelError(string.Empty, error.Description);
                             }
                         }
+
+
                     }
                 }
 

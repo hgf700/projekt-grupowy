@@ -106,7 +106,6 @@ namespace WebApplication1.Controllers
                         },
                         Quantity = 1,
                     },
-
                 },
 
                 Mode = "payment",
@@ -157,8 +156,6 @@ namespace WebApplication1.Controllers
                 eventType: $"{ev.TypeOfEvent}"
             );
 
-
-
             string resourcesPath = Path.Combine(Directory.GetCurrentDirectory(), "Resources");
             string pdfPath = Path.Combine(resourcesPath, "bilet.pdf");
             doc.GeneratePdf(pdfPath);
@@ -166,8 +163,6 @@ namespace WebApplication1.Controllers
             string docelowyemail = Environment.GetEnvironmentVariable("TARGET_EMAIL");
 
             _emailService.SendEmail(docelowyemail,ev.UrlOfEvent);
-
-
 
             ViewBag.Message = "Płatność zakończona sukcesem!";
             return View("Success");
