@@ -1,4 +1,10 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using WebApplication1.Areas.Identity.Data;
+using WebApplication1.Models.Identity;
+using WebApplication1.ProjectSERVICES;
 using WebApplication1.Models;
 using DotNetEnv;
 using Stripe;
@@ -7,107 +13,103 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Identity;
 using WebApplication1.Areas.Identity.Data;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using QuestPDF.Infrastructure;
 using WebApplication1.Models.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Authentication;
-using System.Text.Json;
+
 
 var builder = WebApplication.CreateBuilder(args);
+
 QuestPDF.Settings.License = LicenseType.Community;
 
-// Wczytaj zmienne środowiskowe
-DotNetEnv.Env.Load();
+// Wczytaj zmienne �rodowiskowe z pliku .env (opcjonalnie, je�li u�ywasz DotNetEnv)
+DotNetEnv.Env.Load(); // <- odkomentuj je�li masz .env
 
-// Dodaj usługi MVC
+// Rejestracja kontroler�w z widokami
 builder.Services.AddControllersWithViews();
-builder.Services.AddRazorPages();
 
-// Konfiguracja bazy danych
+// Rejestracja DbContext z konfiguracj� po��czenia
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection1")));
 
-// Konfiguracja Identity
+//builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
+
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
+builder.Services.AddTransient<IEmailSender, WebApplication1.ExtraTools.NullEmailSender>();
+
+// Rejestracja HttpClient jako us�ugi DI
+builder.Services.AddHttpClient();
+
+builder.Services.AddScoped<QrService>();
+builder.Services.AddScoped<SmsService>();
+builder.Services.AddScoped<EmailService>();
+
+builder.Services.AddAuthorization();
+
+
+
+
+//identity  !!!!!!!!!!
 builder.Services.Configure<IdentityOptions>(options =>
 {
+    // Password settings.
     options.Password.RequireDigit = true;
     options.Password.RequireLowercase = true;
+    //options.Password.RequireUppercase = true;
     options.Password.RequiredLength = 1;
 
+    // Lockout settings.
     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
     options.Lockout.MaxFailedAccessAttempts = 10;
     options.Lockout.AllowedForNewUsers = true;
 
-    options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+    // User settings.
+    options.User.AllowedUserNameCharacters =
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
     options.User.RequireUniqueEmail = false;
+
+
 });
 
-// Konfiguracja ciasteczek autoryzacji
 builder.Services.ConfigureApplicationCookie(options =>
 {
+    // Cookie settings
     options.Cookie.HttpOnly = true;
-    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-    options.Cookie.SameSite = SameSiteMode.Lax;
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
-    options.SlidingExpiration = true;
-    options.Cookie.MaxAge = options.ExpireTimeSpan;
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
 
     options.LoginPath = "/Identity/Account/Login";
     options.AccessDeniedPath = "/Identity/Account/AccessDenied";
     options.LogoutPath = "/Identity/Account/Logout";
-
-    options.Events.OnValidatePrincipal = async context =>
-    {
-        var expiresAt = context.Properties.GetTokenValue("expires_at");
-        if (DateTime.TryParse(expiresAt, null, System.Globalization.DateTimeStyles.RoundtripKind, out var expiresUtc))
-        {
-            if (expiresUtc < DateTime.UtcNow)
-            {
-                var refreshToken = context.Properties.GetTokenValue("refresh_token");
-                var clientId = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID");
-                var clientSecret = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_SECRET");
-
-                var tokenRequest = new Dictionary<string, string>
-                {
-                    { "client_id", clientId },
-                    { "client_secret", clientSecret },
-                    { "refresh_token", refreshToken },
-                    { "grant_type", "refresh_token" }
-                };
-
-                using var client = new HttpClient();
-                var response = await client.PostAsync("https://oauth2.googleapis.com/token", new FormUrlEncodedContent(tokenRequest));
-                var content = await response.Content.ReadAsStringAsync();
-
-                var tokenResponse = JsonDocument.Parse(content);
-                var newAccessToken = tokenResponse.RootElement.GetProperty("access_token").GetString();
-                var newRefreshToken = tokenResponse.RootElement.TryGetProperty("refresh_token", out var rToken)
-                    ? rToken.GetString()
-                    : refreshToken;
-                var newExpiresIn = tokenResponse.RootElement.GetProperty("expires_in").GetInt32();
-                var newExpiresAt = DateTime.UtcNow.AddSeconds(newExpiresIn);
-
-                context.Properties.UpdateTokenValue("access_token", newAccessToken);
-                context.Properties.UpdateTokenValue("refresh_token", newRefreshToken);
-                context.Properties.UpdateTokenValue("expires_at", newExpiresAt.ToString("o"));
-
-                await context.HttpContext.SignInAsync(
-                    CookieAuthenticationDefaults.AuthenticationScheme,
-                    context.Principal,
-                    context.Properties
-                );
-            }
-        }
-    };
+    options.SlidingExpiration = true;
 });
 
-// Konfiguracja OAuth Google
-var googleClientId = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID") ?? throw new InvalidOperationException("GOOGLE_CLIENT_ID is not set");
-var googleClientSecret = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_SECRET") ?? throw new InvalidOperationException("GOOGLE_CLIENT_SECRET is not set");
+
+////wszystko do oauth !!!!!!!!!!
+
+string googleClientId = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID");
+
+string googleClientSecret = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_SECRET");
+
+string googleRedirectUri = Environment.GetEnvironmentVariable("GOOGLE_REDIRECT_URI");
+
+//builder.WebHost.UseUrls("https://localhost:7022");
+
+builder.Services.AddHttpClient<TokenService>();
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.HttpOnly = true;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    options.Cookie.SameSite = SameSiteMode.Strict;
+    options.Cookie.SameSite = SameSiteMode.Lax; // ✅ lub None (jeśli 3rd party redirect jak Stripe)
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+    options.SlidingExpiration = true;
+    options.Cookie.MaxAge = options.ExpireTimeSpan;
+});
 
 builder.Services.AddAuthentication(options =>
 {
@@ -120,61 +122,67 @@ builder.Services.AddAuthentication(options =>
     options.ClientId = googleClientId;
     options.ClientSecret = googleClientSecret;
     options.CallbackPath = "/signin-google";
-    options.AuthorizationEndpoint += "?access_type=offline&prompt=consent";
-    options.SaveTokens = true;
 });
 
-// Dodatkowe usługi
-builder.Services.AddHttpClient();
-builder.Services.AddHttpClient<TokenService>();
-builder.Services.AddTransient<IEmailSender, WebApplication1.ExtraTools.NullEmailSender>();
-builder.Services.AddScoped<QrService>();
-builder.Services.AddScoped<SmsService>();
-builder.Services.AddScoped<EmailService>();
-builder.Services.AddAuthorization();
+builder.Services.AddRazorPages(); // <--- dodaj to
 
-// Tworzenie aplikacji
+
 var app = builder.Build();
 
-// Middleware bezpieczeństwa HTTP
 app.Use(async (context, next) =>
 {
-    context.Response.Headers["Cache-Control"] = "no-store, no-cache, must-revalidate";
-    context.Response.Headers["Pragma"] = "no-cache";
-    context.Response.Headers["Expires"] = "-1";
+    // Set Cache-Control headers to disable caching for sensitive responses
+    context.Response.Headers["Cache-Control"] = "no-store, no-cache, must-revalidate";  // Disable caching
+    context.Response.Headers["Pragma"] = "no-cache";  // For older browsers
+    context.Response.Headers["Expires"] = "-1";  // To prevent caching in older browsers
+
+    // Add the X-Content-Type-Options header to prevent MIME type sniffing
     context.Response.Headers["X-Content-Type-Options"] = "nosniff";
 
+    // Ensure these security headers are present, they help protect against various attacks
     if (!context.Response.Headers.ContainsKey("Content-Security-Policy"))
-        context.Response.Headers["Content-Security-Policy"] = "default-src 'self';";
+    {
+        context.Response.Headers["Content-Security-Policy"] = "default-src 'self';"; // Basic CSP rule to restrict content loading to same-origin
+    }
 
     if (!context.Response.Headers.ContainsKey("X-XSS-Protection"))
-        context.Response.Headers["X-XSS-Protection"] = "1; mode=block";
+    {
+        context.Response.Headers["X-XSS-Protection"] = "1; mode=block"; // Enable XSS filter
+    }
 
     if (!context.Response.Headers.ContainsKey("X-Frame-Options"))
-        context.Response.Headers["X-Frame-Options"] = "DENY";
+    {
+        context.Response.Headers["X-Frame-Options"] = "DENY"; // Prevent clickjacking
+    }
 
+    // Check and remove the P3P header if it exists (deprecated)
     if (context.Response.Headers.ContainsKey("P3P"))
+    {
         context.Response.Headers.Remove("P3P");
+    }
 
-    await next();
+    // Continue processing the next middleware
+    await next.Invoke();
 });
 
-// Obsługa błędów
+// Konfiguracja potoku HTTP
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
 
+app.UseRouting();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseRouting();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapRazorPages();
+
 app.Run();

@@ -36,3 +36,4 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 
     }
 }
+        

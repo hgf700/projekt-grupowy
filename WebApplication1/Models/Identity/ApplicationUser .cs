@@ -4,6 +4,7 @@ namespace WebApplication1.Models.Identity
 {
     public class ApplicationUser : IdentityUser
     {
+       
         public bool IsOAuth { get; set; }
         public string? GoogleId { get; set; }
 
