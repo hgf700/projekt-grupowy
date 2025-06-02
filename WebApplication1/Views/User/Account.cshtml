@@ -15,17 +15,16 @@
                 <dt class="col-sm-4">Numer telefonu:</dt>
                 <dd class="col-sm-8">@Model.PhoneNumber ?? "<span class='text-muted'>Nie ustawiono</span>"</dd>
 
-                <dt class="col-sm-4">Dwuskładnikowe uwierzytelnianie:</dt>
-                <dd class="col-sm-8">@(Model.TwoFactorEnabled ? "Tak" : "Nie")</dd>
+                
 
-                <dt class="col-sm-4">Google ID:</dt>
-                <dd class="col-sm-8">@Model.GoogleId ?? "<span class='text-muted'>Brak</span>"</dd>
+                
             </dl>
         </div>
 
         <div class="card-footer d-flex justify-content-end gap-2">
             <a href="/Account/Edit" class="btn btn-outline-primary">Edytuj dane</a>
-            <a href="/Account/ChangePassword" class="btn btn-outline-secondary">Zmień hasło</a>
+            <a href="/Identity/Account/Manage/ChangePassword" class="btn btn-outline-secondary">Zmień hasło</a>
+            <a href="/Identity/Account/Manage/DeletePersonalData" class="btn btn-outline-danger">Usuń konto</a>
         </div>
     </div>
 </div>
