@@ -13,7 +13,7 @@ namespace WebApplication1.ProjectSERVICES
             // Upewnij się, że folder Resources istniej
 
             // Pełna ścieżka do pliku logo
-            string logoPath = Path.Combine(resourceDir, "logo.PNG");
+            string logoPath = Path.Combine(resourceDir, "LOGO.png");
 
             if (!File.Exists(logoPath))
             {
@@ -31,10 +31,10 @@ namespace WebApplication1.ProjectSERVICES
             QRCode qrCode = new QRCode(qrCodeData);
             Bitmap qrCodeImage = qrCode.GetGraphic(
                 pixelsPerModule: 5,
-                darkColor: Color.FromArgb(0, 0, 255),
-                lightColor: Color.FromArgb(255, 0, 0),
+                darkColor: Color.FromArgb(0, 0, 0),
+                lightColor: Color.FromArgb(255, 255, 255),
                 icon: icon,
-                iconSizePercent: 20,
+                iconSizePercent: 10,
                 iconBorderWidth: 20,
                 drawQuietZones: true
             );
