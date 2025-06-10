@@ -8,6 +8,7 @@ namespace WebApplication1.ProjectSERVICES
 {
     public class InvoiceDocument : IDocument
     {
+
         public string EventName { get; set; }
         public string EventDate { get; set; }
         public string EventAddress { get; set; }
@@ -25,78 +26,97 @@ namespace WebApplication1.ProjectSERVICES
 
         public void Compose(IDocumentContainer container)
         {
-            container
-                .Page(page =>
-                {
-                    page.Margin(50);
-                    page.Size(PageSizes.A4);
+            try
+            {            
+                container
+                    .Page(page =>
+                    {
+                        page.Margin(50);
+                        page.Size(PageSizes.A4);
 
-                    page.Header().Element(ComposeHeader);
-                    page.Content().Element(ComposeContent);
-                });
+                        page.Header().Element(ComposeHeader);
+                        page.Content().Element(ComposeContent);
+                    });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         void ComposeHeader(IContainer container)
         {
-            container.Row(row =>
-            {
-                row.RelativeItem().Column(col =>
+            try { 
+                container.Row(row =>
                 {
-                    col.Item().Text("Potwierdzenie zakupu biletu")
-                        .FontSize(20)
-                        .SemiBold()
-                        .FontColor(Colors.Blue.Darken2);
-                });
+                    row.RelativeItem().Column(col =>
+                    {
+                        col.Item().Text("Potwierdzenie zakupu biletu")
+                            .FontSize(20)
+                            .SemiBold()
+                            .FontColor(Colors.Blue.Darken2);
+                    });
 
-                // Można tu wstawić logo z Resources, jeśli chcesz
-                row.ConstantItem(100).Height(50).Placeholder();
-            });
-        }
+                    // Można tu wstawić logo z Resources, jeśli chcesz
+                    row.ConstantItem(100).Height(50).Placeholder();
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+}
 
         void ComposeContent(IContainer container)
         {
-            container.PaddingVertical(30).Column(col =>
+            try
             {
-                col.Spacing(15);
-
-                col.Item().Text($"Wydarzenie: {EventName}")
-                    .FontSize(14);
-
-                col.Item().Text($"Address: {EventAddress}")
-                    .FontSize(14);
-
-                col.Item().Text($"Data wydarzenia: {EventDate}")
-                    .FontSize(14);
-
-                col.Item().Text($"Typ wydarzenia: {EventType}")
-                    .FontSize(14);
-
-                // Dodaj kod QR z pliku
-                string qrPath = Path.Combine(Directory.GetCurrentDirectory(), "Resources", "QR.PNG");
-
-                if (File.Exists(qrPath))
+                container.PaddingVertical(30).Column(col =>
                 {
-                    var qrBytes = File.ReadAllBytes(qrPath);
+                    col.Spacing(15);
 
-                    col.Item().PaddingTop(200).Row(row =>
+                    col.Item().Text($"Wydarzenie: {EventName}")
+                        .FontSize(14);
+
+                    col.Item().Text($"Address: {EventAddress}")
+                        .FontSize(14);
+
+                    col.Item().Text($"Data wydarzenia: {EventDate}")
+                        .FontSize(14);
+
+                    col.Item().Text($"Typ wydarzenia: {EventType}")
+                        .FontSize(14);
+
+                    // Dodaj kod QR z pliku
+                    string qrPath = Path.Combine(Directory.GetCurrentDirectory(), "Resources", "QR.PNG");
+
+                    if (File.Exists(qrPath))
                     {
+                        var qrBytes = File.ReadAllBytes(qrPath);
+
+                        col.Item().PaddingTop(200).Row(row =>
+                        {
 
 
-                        row.RelativeItem(); // lewa pusta przestrzeń
+                            row.RelativeItem(); // lewa pusta przestrzeń
 
-                        row.ConstantItem(300).Height(300).Image(qrBytes).FitArea();
+                            row.ConstantItem(300).Height(300).Image(qrBytes).FitArea();
 
-                        row.RelativeItem(); // prawa pusta przestrzeń
-                    });
-                }
+                            row.RelativeItem(); // prawa pusta przestrzeń
+                        });
+                    }
 
-                else
-                {
-                    col.Item().Text("Kod QR nie został znaleziony.")
-                        .FontColor(Colors.Red.Medium);
-                }
-
-            });
+                    else
+                    {
+                        col.Item().Text("Kod QR nie został znaleziony.")
+                            .FontColor(Colors.Red.Medium);
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 }

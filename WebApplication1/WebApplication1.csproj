@@ -17,7 +17,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\resources\logo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="ProjectSERVICES\QrService.cs" />
+    <None Include="wwwroot\resources\LOGO.png" />
   </ItemGroup>
 
   <ItemGroup>
