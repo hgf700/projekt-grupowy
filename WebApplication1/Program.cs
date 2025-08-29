@@ -8,30 +8,36 @@ using WebApplication1.ProjectSERVICES;
 using WebApplication1.Models;
 using DotNetEnv;
 using Stripe;
-using WebApplication1.ProjectSERVICES;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.Google;
-using Microsoft.AspNetCore.Identity;
-using WebApplication1.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using QuestPDF.Infrastructure;
-using WebApplication1.Models.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using System;
+using Microsoft.AspNetCore.DataProtection;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 QuestPDF.Settings.License = LicenseType.Community;
 
-// Wczytaj zmienne �rodowiskowe z pliku .env (opcjonalnie, je�li u�ywasz DotNetEnv)
-DotNetEnv.Env.Load(); // <- odkomentuj je�li masz .env
+DotNetEnv.Env.Load(); 
 
-// Rejestracja kontroler�w z widokami
 builder.Services.AddControllersWithViews();
 
+//      lokalne bez env
+
 // Rejestracja DbContext z konfiguracj� po��czenia
+//builder.Services.AddDbContext<ApplicationDbContext>(options =>
+//    options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString")));
+
+//      dla AWS
+
+var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(connectionString));
+
+//builder.Services.AddDbContext<ApplicationDbContext>(options =>
+//    options.UseSqlServer(ConnectionString));
 
 //builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -41,7 +47,6 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 
 builder.Services.AddTransient<IEmailSender, WebApplication1.ExtraTools.NullEmailSender>();
 
-// Rejestracja HttpClient jako us�ugi DI
 builder.Services.AddHttpClient();
 
 builder.Services.AddScoped<QrService>();
@@ -51,9 +56,7 @@ builder.Services.AddScoped<EmailService>();
 builder.Services.AddAuthorization();
 
 
-
-
-//identity  !!!!!!!!!!
+//identity  
 builder.Services.Configure<IdentityOptions>(options =>
 {
     // Password settings.
@@ -87,16 +90,18 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.SlidingExpiration = true;
 });
 
+//Generuje i zapisuje klucze XML cos z cookies
+builder.Services.AddDataProtection()
+    .PersistKeysToFileSystem(new DirectoryInfo("/var/dpkeys")) 
+    .SetApplicationName("projekt-app");
 
-////wszystko do oauth !!!!!!!!!!
+//// oauth 
 
 string googleClientId = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID");
 
 string googleClientSecret = Environment.GetEnvironmentVariable("GOOGLE_CLIENT_SECRET");
 
 string googleRedirectUri = Environment.GetEnvironmentVariable("GOOGLE_REDIRECT_URI");
-
-//builder.WebHost.UseUrls("https://localhost:7022");
 
 builder.Services.AddHttpClient<TokenService>();
 
@@ -105,7 +110,7 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
     options.Cookie.SameSite = SameSiteMode.Strict;
-    options.Cookie.SameSite = SameSiteMode.Lax; // ✅ lub None (jeśli 3rd party redirect jak Stripe)
+    options.Cookie.SameSite = SameSiteMode.Lax; 
     options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
     options.SlidingExpiration = true;
     options.Cookie.MaxAge = options.ExpireTimeSpan;
@@ -126,8 +131,13 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddRazorPages(); // <--- dodaj to
 
-
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    //db.Database.Migrate();
+}
 
 app.Use(async (context, next) =>
 {

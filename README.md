@@ -2,6 +2,16 @@
 
 This is our group project – a web application built with ASP.NET.
 
+## Hosting and Deployment
+
+The application is currently hosted on **AWS**:
+
+- **EC2 (Amazon Linux)** instance serves as the web server.
+- The application is **dockerized** and stored in **Amazon ECR** for container management.
+- **MSSQL Database** is hosted in **RDS** (Relational Database Service).
+- The Docker container is deployed and runs on the EC2 instance, exposing the web application to the public.
+- http://13.217.97.150/
+
 ## Description
 
 The application includes the following features:

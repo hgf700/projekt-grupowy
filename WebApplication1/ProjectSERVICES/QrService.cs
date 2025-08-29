@@ -1,5 +1,5 @@
 ﻿using QRCoder;
-using System.Drawing.Imaging;
+using SkiaSharp;
 
 namespace WebApplication1.ProjectSERVICES
 {
@@ -11,39 +11,19 @@ namespace WebApplication1.ProjectSERVICES
             {
                 string baseDir = Directory.GetCurrentDirectory();
                 string resourceDir = Path.Combine(baseDir, "Resources");
+                Directory.CreateDirectory(resourceDir);
 
-                // Upewnij się, że folder Resources istniej
+                string outputPath = Path.Combine(resourceDir, "QR.png");
 
-                // Pełna ścieżka do pliku logo
-                string logoPath = Path.Combine(resourceDir, "logo.png");
+                using var qrGenerator = new QRCodeGenerator();
+                using var qrCodeData = qrGenerator.CreateQrCode(url, QRCodeGenerator.ECCLevel.Q);
+                using var qrCode = new PngByteQRCode(qrCodeData);
+                var qrBytes = qrCode.GetGraphic(20); // 20 pixels per module
 
-                if (!File.Exists(logoPath))
-                {
-                    throw new FileNotFoundException("Nie znaleziono pliku logo.PNG", logoPath);
-                }
-
-                // Ścieżka do wygenerowanego pliku QR
-                string outputPath = Path.Combine(resourceDir, "QR.PNG");
-
-                QRCodeGenerator qrGenerator = new QRCodeGenerator();
-                QRCodeData qrCodeData = qrGenerator.CreateQrCode(url, QRCodeGenerator.ECCLevel.Q);
-
-                Bitmap icon = (Bitmap)Image.FromFile(logoPath);
-
-                QRCode qrCode = new QRCode(qrCodeData);
-                Bitmap qrCodeImage = qrCode.GetGraphic(
-                    pixelsPerModule: 5,
-                    darkColor: Color.FromArgb(0, 0, 0),
-                    lightColor: Color.FromArgb(255, 255, 255),
-                    icon: icon,
-                    iconSizePercent: 10,
-                    iconBorderWidth: 0,
-                    drawQuietZones: true
-                );
-
-                qrCodeImage.Save(outputPath, ImageFormat.Png);
+                File.WriteAllBytes(outputPath, qrBytes);
             }
-            catch (Exception ex){
+            catch (Exception ex)
+            {
                 Console.WriteLine(ex.Message);
             }
         }
